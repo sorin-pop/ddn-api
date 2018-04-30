@@ -12,8 +12,7 @@ var (
 	testSubj = "subj"
 	testRec  = "someone"
 
-	testHost = "host"
-	testPort = 22
+	testHost = "host:22"
 	testUser = "user"
 	testPass = "pass"
 	testFrom = "fromAddress"
@@ -25,16 +24,7 @@ func TestInit(t *testing.T) {
 		t.Errorf("Send should've returned without error, instead got: %v", err)
 	}
 
-	err = Init(testHost, 0, testUser, testPass, testFrom)
-	if err == nil {
-		t.Errorf("Init should have failed")
-	}
-
-	if initialized {
-		t.Errorf("Initialized set to true, should've been false")
-	}
-
-	err = Init(testHost, testPort, testUser, testPass, testFrom)
+	err = Init(testHost, testUser, testPass, testFrom)
 	if err != nil {
 		t.Errorf("Init should've succeeded, failed with: %v", err)
 	}
@@ -44,7 +34,7 @@ func TestInit(t *testing.T) {
 		t.Errorf("incorrect variables: %v", err)
 	}
 
-	err = Init(testHost, testPort, testUser, testPass, testFrom)
+	err = Init(testHost, testUser, testPass, testFrom)
 	if err == nil {
 		t.Errorf("Init should have failed the second time, didn't")
 	}
@@ -56,16 +46,7 @@ func TestInitNoAuth(t *testing.T) {
 	fromAddr = ""
 	dialer = gomail.Dialer{}
 
-	err := InitNoAuth(testHost, 0, testFrom)
-	if err == nil {
-		t.Errorf("InitNoAuth should have failed")
-	}
-
-	if initialized {
-		t.Errorf("Initialized set to true, should've been false")
-	}
-
-	err = InitNoAuth(testHost, testPort, testFrom)
+	err := InitNoAuth(testHost, testFrom)
 	if err != nil {
 		t.Errorf("InitNoAuth should've succeeded, failed with: %v", err)
 	}
@@ -78,7 +59,7 @@ func TestInitNoAuth(t *testing.T) {
 		t.Errorf("incorrect variables: %v", err)
 	}
 
-	err = InitNoAuth(testHost, testPort, testFrom)
+	err = InitNoAuth(testHost, testFrom)
 	if err == nil {
 		t.Errorf("Init should have failed the second time, didn't")
 	}
@@ -93,12 +74,10 @@ func checkVars() error {
 		return fmt.Errorf("fromAddr mismatch, should be %q, got %q", testFrom, fromAddr)
 	}
 
-	if dialer.Host != testHost {
-		return fmt.Errorf("Host mismatch: should be %q, got %q", testHost, dialer.Host)
-	}
+	resHost := fmt.Sprintf("%s:%d", dialer.Host, dialer.Port)
 
-	if dialer.Port != testPort {
-		return fmt.Errorf("Port mismatch: Should be '%d', got '%d'", testPort, dialer.Port)
+	if resHost != testHost {
+		return fmt.Errorf("Host mismatch: should be %q, got %q", testHost, fmt.Sprintf("%s:%d", dialer.Host, dialer.Port))
 	}
 
 	return nil

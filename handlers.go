@@ -200,7 +200,7 @@ func copyFile(dump string) (string, error) {
 
 	}
 
-	url := fmt.Sprintf("http://%s:%s/dumps/%s", config.ServerHost, config.ServerPort, filename)
+	url := fmt.Sprintf("http://%s/dumps/%s", config.ServerHost, filename)
 
 	return url, nil
 }
@@ -265,7 +265,7 @@ func importAction(w http.ResponseWriter, r *http.Request) {
 
 	ensureValues(&dbname, &dbuser, &dbpass, agent.DBVendor)
 
-	url := fmt.Sprintf("http://%s:%s/dumps/%s", config.ServerHost, config.ServerPort, filename)
+	url := fmt.Sprintf("http://%s/dumps/%s", config.ServerHost, filename)
 	entry := data.Row{
 		DBName:     dbname,
 		DBUser:     dbuser,

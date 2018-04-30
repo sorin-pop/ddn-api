@@ -2,6 +2,8 @@ package mail
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/djavorszky/sutils"
 	gomail "gopkg.in/gomail.v2"
@@ -15,13 +17,21 @@ var (
 
 // InitNoAuth iinitializes the email sending feature without any
 // user authentication
-func InitNoAuth(host string, port int, from string) error {
+func InitNoAuth(host string, from string) error {
 	if initialized {
 		return fmt.Errorf("mail already initialized")
 	}
 
-	if !sutils.Present(host, from) || port == 0 {
+	if !sutils.Present(host, from) {
 		return fmt.Errorf("missing parameters")
+	}
+
+	hostArr := strings.Split(host, ":")
+	host = hostArr[0]
+	port, err := strconv.Atoi(hostArr[1])
+
+	if err != nil {
+		return fmt.Errorf("failed converting smtp port to int: %v", err)
 	}
 
 	doInit(host, port, "", "", from)
@@ -30,13 +40,20 @@ func InitNoAuth(host string, port int, from string) error {
 }
 
 // Init initializes the email sending feature
-func Init(host string, port int, user, pass, from string) error {
+func Init(host string, user, pass, from string) error {
 	if initialized {
 		return fmt.Errorf("mail already initialized")
 	}
 
-	if !sutils.Present(host, user, pass, from) || port == 0 {
+	if !sutils.Present(host, user, pass, from) {
 		return fmt.Errorf("missing parameters")
+	}
+
+	hostArr := strings.Split(host, ":")
+	host = hostArr[0]
+	port, err := strconv.Atoi(hostArr[1])
+	if err != nil {
+		return fmt.Errorf("failed converting smtp port to int: %v", err)
 	}
 
 	doInit(host, port, user, pass, from)
@@ -45,6 +62,7 @@ func Init(host string, port int, user, pass, from string) error {
 }
 
 func doInit(host string, port int, user, pass, from string) {
+
 	dialer = *gomail.NewPlainDialer(host, port, user, pass)
 
 	fromAddr = from

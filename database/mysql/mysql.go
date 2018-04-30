@@ -18,13 +18,13 @@ import (
 
 // DB implements the BackendConnection
 type DB struct {
-	Address, Port, User, Pass, Database string
-	conn                                *sql.DB
+	Address, User, Pass, Database string
+	conn                          *sql.DB
 }
 
 // ConnectAndPrepare establishes a database connection and initializes the tables, if needed
 func (mys *DB) ConnectAndPrepare() error {
-	datasource := fmt.Sprintf("%s:%s@tcp(%s:%s)/", mys.User, mys.Pass, mys.Address, mys.Port)
+	datasource := fmt.Sprintf("%s:%s@tcp(%s)/", mys.User, mys.Pass, mys.Address)
 	err := mys.connect(datasource)
 	if err != nil {
 		return fmt.Errorf("couldn't connect to the database: %s", err.Error())

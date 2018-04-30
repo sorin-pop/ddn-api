@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/djavorszky/ddn-common/brwsr"
 	"github.com/djavorszky/ddn-api/database/data"
 	"github.com/djavorszky/ddn-api/registry"
+	"github.com/djavorszky/ddn-common/brwsr"
 	"github.com/djavorszky/ddn-common/errs"
 	"github.com/djavorszky/ddn-common/inet"
 	"github.com/djavorszky/ddn-common/logger"
@@ -397,7 +397,7 @@ func startImport(agent model.Agent, dbe data.Row) {
 
 		logger.Debug("Copy successful, starting import")
 
-		url = fmt.Sprintf("http://%s:%s/dumps/%s", config.ServerHost, config.ServerPort, filename)
+		url = fmt.Sprintf("http://%s/dumps/%s", config.ServerHost, filename)
 	}
 
 	_, err := agent.ImportDatabase(dbe.ID, dbe.DBName, dbe.DBUser, dbe.DBPass, url)

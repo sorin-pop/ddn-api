@@ -8,14 +8,11 @@ import (
 type Config struct {
 	DBProvider        string   `toml:"db-provider"`
 	DBAddress         string   `toml:"db-addr"`
-	DBPort            string   `toml:"db-port"`
 	DBUser            string   `toml:"db-username"`
 	DBPass            string   `toml:"db-userpass"`
 	DBName            string   `toml:"db-name"`
 	ServerHost        string   `toml:"server-host"`
-	ServerPort        string   `toml:"server-port"`
 	SMTPAddr          string   `toml:"smtp-host"`
-	SMTPPort          int      `toml:"smtp-port"`
 	SMTPUser          string   `toml:"smtp-user"`
 	SMTPPass          string   `toml:"smtp-password"`
 	EmailSender       string   `toml:"email-sender"`
@@ -33,7 +30,6 @@ func (c Config) Print() {
 
 	if c.DBProvider == "mysql" {
 		logger.Info("Database Address:\t\t%s", c.DBAddress)
-		logger.Info("Database Port:\t\t%s", c.DBPort)
 		logger.Info("Database User:\t\t%s", c.DBUser)
 		logger.Info("Database Name:\t\t%s", c.DBName)
 	} else if c.DBProvider == "sqlite" {
@@ -41,9 +37,8 @@ func (c Config) Print() {
 	}
 
 	logger.Info("Server Host:\t\t%s", c.ServerHost)
-	logger.Info("Server Port:\t\t%s", c.ServerPort)
 
-	if c.SMTPAddr != "" && c.SMTPPort != 0 && c.EmailSender != "" {
+	if c.SMTPAddr != "" && c.EmailSender != "" {
 		logger.Info("Admin email:\t\t%s", c.AdminEmail)
 		logger.Info("Server configured to send emails.")
 	}

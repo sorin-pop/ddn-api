@@ -8,7 +8,6 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
-	"strconv"
 	"strings"
 	"syscall"
 	"time"
@@ -104,7 +103,6 @@ func main() {
 	case "mysql":
 		db = &mysql.DB{
 			Address:  config.DBAddress,
-			Port:     config.DBPort,
 			User:     config.DBUser,
 			Pass:     config.DBPass,
 			Database: config.DBName,
@@ -125,9 +123,9 @@ func main() {
 
 	if config.SMTPAddr != "" {
 		if config.SMTPUser != "" {
-			err = mail.Init(config.SMTPAddr, config.SMTPPort, config.SMTPUser, config.SMTPPass, config.EmailSender)
+			err = mail.Init(config.SMTPAddr, config.SMTPUser, config.SMTPPass, config.EmailSender)
 		} else {
-			err = mail.InitNoAuth(config.SMTPAddr, config.SMTPPort, config.EmailSender)
+			err = mail.InitNoAuth(config.SMTPAddr, config.EmailSender)
 		}
 
 		if err != nil {
@@ -152,9 +150,11 @@ func main() {
 	// Start agent checker goroutine
 	go checkAgents()
 
-	logger.Info("Starting to listen on port %s", config.ServerPort)
+	port := strings.Split(config.ServerHost, ":")[1]
 
-	port := fmt.Sprintf(":%s", config.ServerPort)
+	logger.Info("Starting to listen on port %s", port)
+
+	port = fmt.Sprintf(":%s", port)
 
 	logger.Error("%v", http.ListenAndServe(port, Router()))
 
@@ -217,13 +217,7 @@ func loadPropertiesFromEnv() error {
 	if err != nil {
 		return err
 	}
-
-	addr := strings.Split(dbAddress, ":")
-	if len(addr) == 1 {
-		return fmt.Errorf("%q is missing the port", envDBAddress)
-	}
-	config.DBAddress = addr[0]
-	config.DBPort = addr[1]
+	config.DBAddress = dbAddress
 
 	// DB User and Password
 	user, err := loadRequiredProperty(envDBUser)
@@ -232,42 +226,25 @@ func loadPropertiesFromEnv() error {
 	}
 	config.DBUser = user
 
+	// DB name
 	dbname, err := loadRequiredProperty(envDBName)
 	if err != nil {
 		return err
 	}
 	config.DBName = dbname
 
+	// Optional DB Password
 	config.DBPass = loadOptionalProperty(envDBPassword)
 
+	// Server's host
 	serverHost, err := loadRequiredProperty(envServerHost)
 	if err != nil {
 		return err
 	}
+	config.ServerHost = serverHost
 
-	host := strings.Split(serverHost, ":")
-	if len(host) == 1 {
-		return fmt.Errorf("%q is missing the port", serverHost)
-	}
-	config.ServerHost = host[0]
-	config.ServerPort = host[1]
-
-	smtpAddr := loadOptionalProperty(envSMTPAddress)
-	if smtpAddr != "" {
-
-		smtpAddrArr := strings.Split(smtpAddr, ":")
-		if len(smtpAddrArr) == 1 {
-			return fmt.Errorf("%q is missing the port", smtpAddrArr)
-		}
-
-		config.SMTPAddr = smtpAddrArr[0]
-		portNum, err := strconv.Atoi(smtpAddrArr[1])
-		if err != nil {
-			return fmt.Errorf("failed converting smtp port to int: %v", err)
-		}
-
-		config.SMTPPort = portNum
-	}
+	// SMTP address
+	config.SMTPAddr = loadOptionalProperty(envSMTPAddress)
 
 	config.SMTPUser = loadOptionalProperty(envSMTPUser)
 	config.SMTPPass = loadOptionalProperty(envSMTPPassword)

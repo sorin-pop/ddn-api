@@ -3,7 +3,7 @@ package data
 import (
 	"time"
 
-	"github.com/djavorszky/ddn/common/status"
+	"github.com/djavorszky/ddn-common/status"
 )
 
 // Row represents a row in the database
@@ -86,7 +86,7 @@ func (row Row) Progress() int {
 		return 25
 	case status.ValidatingDump:
 		return 50
-	case status.ImportInProgress,status.ExportInProgress:
+	case status.ImportInProgress, status.ExportInProgress:
 		return 75
 	default:
 		return 0

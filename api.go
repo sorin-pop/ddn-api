@@ -6,12 +6,12 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/djavorszky/ddn/common/errs"
-	"github.com/djavorszky/ddn/common/inet"
-	"github.com/djavorszky/ddn/common/logger"
-	"github.com/djavorszky/ddn/common/model"
-	"github.com/djavorszky/ddn/common/status"
-	"github.com/djavorszky/ddn/server/registry"
+	"github.com/djavorszky/ddn-api/registry"
+	"github.com/djavorszky/ddn-common/errs"
+	"github.com/djavorszky/ddn-common/inet"
+	"github.com/djavorszky/ddn-common/logger"
+	"github.com/djavorszky/ddn-common/model"
+	"github.com/djavorszky/ddn-common/status"
 	"github.com/djavorszky/sutils"
 )
 

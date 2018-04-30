@@ -12,13 +12,13 @@ import (
 	"time"
 
 	"github.com/BurntSushi/toml"
-	"github.com/djavorszky/ddn/common/inet"
-	"github.com/djavorszky/ddn/common/logger"
-	"github.com/djavorszky/ddn/server/brwsr"
-	"github.com/djavorszky/ddn/server/database"
-	"github.com/djavorszky/ddn/server/database/mysql"
-	"github.com/djavorszky/ddn/server/database/sqlite"
-	"github.com/djavorszky/ddn/server/mail"
+	"github.com/djavorszky/ddn-common/brwsr"
+	"github.com/djavorszky/ddn-api/database"
+	"github.com/djavorszky/ddn-api/database/mysql"
+	"github.com/djavorszky/ddn-api/database/sqlite"
+	"github.com/djavorszky/ddn-api/mail"
+	"github.com/djavorszky/ddn-common/inet"
+	"github.com/djavorszky/ddn-common/logger"
 	"github.com/djavorszky/sutils"
 )
 

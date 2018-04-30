@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/djavorszky/ddn/server/database/data"
+	"github.com/djavorszky/ddn-api/database/data"
 	webpush "github.com/sherclockholmes/webpush-go"
 )
 

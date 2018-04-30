@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/djavorszky/ddn/common/model"
-	"github.com/djavorszky/ddn/server/database/data"
-	"github.com/djavorszky/ddn/server/database/dbutil"
+	"github.com/djavorszky/ddn-api/database/data"
+	"github.com/djavorszky/ddn-api/database/dbutil"
+	"github.com/djavorszky/ddn-common/model"
 	"github.com/djavorszky/sutils"
 	webpush "github.com/sherclockholmes/webpush-go"
 

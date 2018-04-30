@@ -6,11 +6,11 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/djavorszky/ddn/common/logger"
-	"github.com/djavorszky/ddn/common/model"
-	"github.com/djavorszky/ddn/server/brwsr"
-	"github.com/djavorszky/ddn/server/database/data"
-	"github.com/djavorszky/ddn/server/registry"
+	"github.com/djavorszky/ddn-common/brwsr"
+	"github.com/djavorszky/ddn-api/database/data"
+	"github.com/djavorszky/ddn-api/registry"
+	"github.com/djavorszky/ddn-common/logger"
+	"github.com/djavorszky/ddn-common/model"
 	"github.com/djavorszky/liferay"
 	"github.com/gorilla/mux"
 )

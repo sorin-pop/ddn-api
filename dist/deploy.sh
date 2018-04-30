@@ -15,7 +15,7 @@ else
     rm -rf $rootloc/dist/server/agent $rootloc/dist/server/server $rootloc/dist/server/common
 
     docker container create --name extract djavorszky/ddn:build  
-    docker container cp extract:/go/src/github.com/djavorszky/ddn/server/server $rootloc/dist/server/server
+    docker container cp extract:/go/src/github.com/djavorszky/ddn-api/server $rootloc/dist/server/server
     docker container rm -f extract
 
     echo "updating libraries"

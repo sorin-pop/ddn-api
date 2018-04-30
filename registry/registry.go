@@ -4,7 +4,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/djavorszky/ddn/common/model"
+	"github.com/djavorszky/ddn-common/model"
 )
 
 var (

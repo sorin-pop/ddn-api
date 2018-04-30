@@ -5,7 +5,7 @@ import (
 
 	"sort"
 
-	"github.com/djavorszky/ddn/common/model"
+	"github.com/djavorszky/ddn-common/model"
 )
 
 const (

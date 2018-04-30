@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/djavorszky/ddn/common/logger"
+	"github.com/djavorszky/ddn-common/logger"
 )
 
 // Config to hold the database server and ddn server configuration

@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/djavorszky/ddn/common/inet"
-	"github.com/djavorszky/ddn/common/logger"
-	"github.com/djavorszky/ddn/common/status"
-	"github.com/djavorszky/ddn/server/mail"
-	"github.com/djavorszky/ddn/server/registry"
+	"github.com/djavorszky/ddn-api/mail"
+	"github.com/djavorszky/ddn-api/registry"
+	"github.com/djavorszky/ddn-common/inet"
+	"github.com/djavorszky/ddn-common/logger"
+	"github.com/djavorszky/ddn-common/status"
 )
 
 // maintain runs each day and checks the databases about when they will expire.

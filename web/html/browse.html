@@ -1,0 +1,38 @@
+{{define "content"}}
+<div class="col md-12">
+
+    <h3>Server browser - "/{{.FileList.Path}}"</h3>
+
+    <table class="table table-hover table-responsive table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th style="width:5rem">Size</th>
+                <th style="width:15rem">Last modified</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{if not .FileList.OnRoot}}
+            <tr><td colspan=3><a href="/browse/{{.FileList.Parent}}"><i class="fa fa-level-up" aria-hidden="true"></i> Go up..</a></td></tr>
+        {{end}}
+
+        {{range .FileList.Entries}}
+        <tr>
+            {{if .Folder}}
+                <td>
+                    <a href="/browse/{{.Path}}"><i class="fa fa-folder" aria-hidden="true"></i> {{.Name}} </a>
+                </td>
+                <td>n/a</td>
+                <td data-order="{{.ModTime.Unix}}">{{ .ModTime.Format "January 02, 2006 15:04:05"}}</td>
+            {{else}}
+                <td><i class="fa fa-file" aria-hidden="true"></i> {{.Name}}
+                {{if .Importable}} - <a href="/srvimport?dump={{.Path}}">IMPORT</a> {{end}}
+                <td>{{.FriendlySize}}</td>
+                <td data-order="{{.ModTime.Unix}}">{{ .ModTime.Format "January 02, 2006 15:04:05"}}</td>
+            {{end}}
+        </tr>
+        {{end}}
+        </tbody>
+    </table>
+</div>
+{{end}}

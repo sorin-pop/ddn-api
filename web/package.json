@@ -1,0 +1,27 @@
+{
+  "name": "ddn-server-ui",
+  "version": "1.3.1",
+  "description": "The Distributed Database Network server, or ddns for short, is the central server for the whole ddn network. It is an API server with JSON API capabilities with a web UI planned once the API part is released.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djavorszky/ddn.git"
+  },
+  "author": "djavorszky",
+  "contributors": "balcsida",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djavorszky/ddn/issues"
+  },
+  "homepage": "https://github.com/djavorszky/ddn",
+  "dependencies": {
+    "bootstrap": "^4.0.0-beta",
+    "datatables.net": "^1.10.16",
+    "datatables.net-bs4": "latest",
+    "font-awesome": "latest",
+    "popper.js": "^1.12.5"
+  }
+}

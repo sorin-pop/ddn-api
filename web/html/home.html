@@ -1,0 +1,22 @@
+{{define "content"}}
+
+{{if ne .Message ""}}
+<div class="alert alert-{{.MessageType}}">{{.Message}}</div>
+{{end}}
+
+{{ if .HasEntry }}
+    {{template "properties.html" .}}
+{{end}}
+
+
+
+{{ if or .HasPrivateDBs .HasPublicDBs }}
+    {{template "databases.html" .}}
+{{end}}
+
+
+<footer class="blockquote-footer">
+    <small>Version: {{ .Version }}</small>
+</footer>
+
+{{end}}

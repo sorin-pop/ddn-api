@@ -1,0 +1,28 @@
+{{define "content"}}
+{{if .AnyOnline}}
+<h3>Import database</h3>
+<div class="row">
+    <div class="col-sm-6 text-center">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Browse the server</h4>
+                <p class="card-text">A folder has been mounted for your convenience - you can browse it to select the file you wish to import.</p>
+                <a href="browse" class="btn btn-primary">Browse server</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 text-center">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Upload a file</h4>
+                <p class="card-text">Upload the dump if you have it locally. This option should only be chosen for dumpfiles that are less than 1 Gb in size.</p>
+                <a href="/fileimport" class="btn btn-primary">Upload</a>
+            </div>
+        </div>
+    </div>
+</div>
+{{else}}
+<h3>Agents are offline</h3>
+<p>Since none of the agents are online, I'm afraid I can't let you start an import process.</p>
+{{end}}
+{{end}}

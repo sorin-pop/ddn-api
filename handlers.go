@@ -160,7 +160,6 @@ func doPrepImport(creator, agentName, dumpfile, dbname, dbuser, dbpass, public s
 		AgentName:  agentName,
 		Creator:    creator,
 		DBAddress:  agent.DBAddr,
-		DBPort:     agent.DBPort,
 		DBVendor:   agent.DBVendor,
 		Status:     status.Started,
 	}
@@ -277,7 +276,6 @@ func importAction(w http.ResponseWriter, r *http.Request) {
 		Creator:    getUser(r),
 		Dumpfile:   url,
 		DBAddress:  agent.DBAddr,
-		DBPort:     agent.DBPort,
 		DBVendor:   agent.DBVendor,
 		Status:     status.Started,
 	}
@@ -343,7 +341,6 @@ func createAction(w http.ResponseWriter, r *http.Request) {
 		AgentName:  agentName,
 		Creator:    getUser(r),
 		DBAddress:  agent.DBAddr,
-		DBPort:     agent.DBPort,
 		DBVendor:   agent.DBVendor,
 		Status:     status.Success,
 	}
@@ -384,7 +381,6 @@ func register(w http.ResponseWriter, r *http.Request) {
 	ddnc := model.Agent{
 		ID:         registry.ID(),
 		DBVendor:   req.DBVendor,
-		DBPort:     req.DBPort,
 		DBAddr:     req.DBAddr,
 		DBSID:      req.DBSID,
 		ShortName:  req.ShortName,
@@ -392,7 +388,6 @@ func register(w http.ResponseWriter, r *http.Request) {
 		Identifier: req.AgentName,
 		Version:    req.Version,
 		Address:    req.Addr,
-		AgentPort:  req.Port,
 		Up:         true,
 	}
 
@@ -400,9 +395,7 @@ func register(w http.ResponseWriter, r *http.Request) {
 
 	logger.Info("Registered: %v", req.AgentName)
 
-	conAddr := fmt.Sprintf("%s:%s", ddnc.Address, ddnc.AgentPort)
-
-	resp, _ := inet.JSONify(model.RegisterResponse{ID: ddnc.ID, Address: conAddr})
+	resp, _ := inet.JSONify(model.RegisterResponse{ID: ddnc.ID, Address: ddnc.Address})
 
 	inet.WriteHeader(w, http.StatusOK)
 	w.Write(resp)
@@ -870,8 +863,8 @@ func upd8(w http.ResponseWriter, r *http.Request) {
 		
 <p>The %s export that you started completed successfully.</p>
 <p>It will be available to download through the link below for 24 hours, then it will be deleted.</p>
-<p><a href="%s:%s/exports/%s">Download dump</a></p>
-<p>Cheers</p>`, dbe.DBName, agent.Address, agent.AgentPort, exportDumpFileName))
+<p><a href="%s/exports/%s">Download dump</a></p>
+<p>Cheers</p>`, dbe.DBName, agent.Address, exportDumpFileName))
 
 			err = sendUserNotifications(dbe.Creator, fmt.Sprintf("Finished exporting %s", dbe.DBName))
 			if err != nil {

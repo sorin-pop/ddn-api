@@ -114,7 +114,7 @@ func checkAgents() {
 
 	for range ticker.C {
 		for _, agent := range registry.List() {
-			addr := fmt.Sprintf("%s:%s/heartbeat", agent.Address, agent.AgentPort)
+			addr := fmt.Sprintf("%s/heartbeat", agent.Address)
 
 			if !inet.AddrExists(addr) && agent.Up {
 				agent.Up = false

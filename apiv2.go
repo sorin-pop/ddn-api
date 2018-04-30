@@ -331,7 +331,6 @@ func importAPIDB(w http.ResponseWriter, r *http.Request) {
 		CreateDate: time.Now(),
 		ExpiryDate: time.Now().AddDate(0, 1, 0),
 		DBAddress:  agent.DBAddr,
-		DBPort:     agent.DBPort,
 		DBVendor:   agent.DBVendor,
 		Status:     status.Accepted,
 	}
@@ -457,7 +456,6 @@ func createAPIDB(w http.ResponseWriter, r *http.Request) {
 		CreateDate: time.Now(),
 		ExpiryDate: time.Now().AddDate(0, 1, 0),
 		DBAddress:  agent.DBAddr,
-		DBPort:     agent.DBPort,
 		DBVendor:   agent.DBVendor,
 		Status:     status.Success,
 	}

@@ -101,13 +101,5 @@ func checkVars() error {
 		return fmt.Errorf("Port mismatch: Should be '%d', got '%d'", testPort, dialer.Port)
 	}
 
-	if dialer.Username != testUser {
-		return fmt.Errorf("User mismatch: should be %q, got %q", testUser, dialer.Username)
-	}
-
-	if dialer.Password != testPass {
-		return fmt.Errorf("Password mismatch: should be %q, got %q", testPass, dialer.Password)
-	}
-
 	return nil
 }

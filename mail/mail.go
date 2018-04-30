@@ -45,12 +45,7 @@ func Init(host string, port int, user, pass, from string) error {
 }
 
 func doInit(host string, port int, user, pass, from string) {
-	dialer = gomail.Dialer{
-		Host:     host,
-		Port:     port,
-		Username: user,
-		Password: pass,
-	}
+	dialer = *gomail.NewPlainDialer(host, port, user, pass)
 
 	fromAddr = from
 	initialized = true

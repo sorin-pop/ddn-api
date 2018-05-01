@@ -6,11 +6,11 @@ import (
 
 // Config to hold the database server and ddn server configuration
 type Config struct {
-	DBAddress         string   `toml:"db-addr"`
-	DBUser            string   `toml:"db-username"`
+	DBAddress         string   `toml:"db-addr" required:"true"`
+	DBUser            string   `toml:"db-username" required:"true"`
 	DBPass            string   `toml:"db-userpass"`
-	DBName            string   `toml:"db-name"`
-	ServerHost        string   `toml:"server-host"`
+	DBName            string   `toml:"db-name" required:"true"`
+	ServerHost        string   `toml:"server-host" required:"true"`
 	SMTPAddr          string   `toml:"smtp-host"`
 	SMTPUser          string   `toml:"smtp-user"`
 	SMTPPass          string   `toml:"smtp-password"`

@@ -184,7 +184,5 @@ func loadPropertiesFromEnv() error {
 		return fmt.Errorf("reading from env: %v", err)
 	}
 
-	logger.Info("%#v", config)
-
 	return nil
 }

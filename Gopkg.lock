@@ -95,10 +95,10 @@
   revision = "4178557ae428460c3780a381c824a1f3aceb6325"
 
 [[projects]]
-  name = "github.com/mattn/go-sqlite3"
+  name = "github.com/kelseyhightower/envconfig"
   packages = ["."]
-  revision = "6c771bb9887719704b210e87e934f08be014bdb1"
-  version = "v1.6.0"
+  revision = "f611eb38b3875cc3bd991ca91c51d06446afa14c"
+  version = "v1.3.0"
 
 [[projects]]
   branch = "master"
@@ -127,6 +127,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "90e2a1f634eb2c48acaf97b12eefe88bbf69661b204a7e0c7e2ef766a278ef4f"
+  inputs-digest = "ecdcf0b063493f529a7ac8a16728bf81832b23d9daf67e64a5902010d7a49f5a"
   solver-name = "gps-cdcl"
   solver-version = 1

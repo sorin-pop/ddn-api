@@ -15,11 +15,11 @@ import (
 	"github.com/BurntSushi/toml"
 	"github.com/djavorszky/ddn-api/database"
 	"github.com/djavorszky/ddn-api/database/mysql"
-	"github.com/djavorszky/ddn-api/database/sqlite"
 	"github.com/djavorszky/ddn-api/mail"
 	"github.com/djavorszky/ddn-common/brwsr"
 	"github.com/djavorszky/ddn-common/logger"
 	"github.com/djavorszky/sutils"
+	"github.com/kelseyhightower/envconfig"
 )
 
 var (
@@ -99,18 +99,11 @@ func main() {
 		}
 	}
 
-	switch config.DBProvider {
-	case "mysql":
-		db = &mysql.DB{
-			Address:  config.DBAddress,
-			User:     config.DBUser,
-			Pass:     config.DBPass,
-			Database: config.DBName,
-		}
-	case "sqlite":
-		db = &sqlite.DB{DBLocation: config.DBAddress}
-	default:
-		logger.Fatal("Unknown database provider: %s", config.DBProvider)
+	db = &mysql.DB{
+		Address:  config.DBAddress,
+		User:     config.DBUser,
+		Pass:     config.DBPass,
+		Database: config.DBName,
 	}
 
 	err = db.ConnectAndPrepare()
@@ -185,94 +178,13 @@ func loadPropertiesFromFile(filename string) error {
 	return nil
 }
 
-const (
-	envDBProvider        = "DB_PROVIDER"
-	envDBAddress         = "DB_ADDRESS"
-	envDBName            = "DB_NAME"
-	envDBUser            = "DB_USER"
-	envDBPassword        = "DB_PASSWORD"
-	envServerHost        = "SERVER_HOST"
-	envSMTPAddress       = "SMTP_ADDRESS"
-	envSMTPUser          = "SMTP_USER"
-	envSMTPPassword      = "SMTP_PASSWORD"
-	envAdminEmails       = "ADMIN_EMAILS"
-	envMountLocation     = "MOUNT_LOCATION"
-	envWebpushEnabled    = "WEBPUSH_ENABLED"
-	envWebpushSubscriber = "WEBPUSH_SUBSCRIBER"
-	envWebpushPublicKey  = "WEBPUSH_PUBLIC_KEY"
-	envWebpushPrivateKey = "WEBPUSH_PRIVATE_KEY"
-	envGoogleAnalyticsID = "GOOGLE_ANALYTICS_ID"
-)
-
 func loadPropertiesFromEnv() error {
-	// Provider
-	dbProvider, err := loadRequiredProperty(envDBProvider)
+	err := envconfig.Process("ddn", &config)
 	if err != nil {
-		return err
+		return fmt.Errorf("reading from env: %v", err)
 	}
-	config.DBProvider = dbProvider
 
-	// DB Address
-	dbAddress, err := loadRequiredProperty(envDBAddress)
-	if err != nil {
-		return err
-	}
-	config.DBAddress = dbAddress
-
-	// DB User and Password
-	user, err := loadRequiredProperty(envDBUser)
-	if err != nil {
-		return err
-	}
-	config.DBUser = user
-
-	// DB name
-	dbname, err := loadRequiredProperty(envDBName)
-	if err != nil {
-		return err
-	}
-	config.DBName = dbname
-
-	// Optional DB Password
-	config.DBPass = loadOptionalProperty(envDBPassword)
-
-	// Server's host
-	serverHost, err := loadRequiredProperty(envServerHost)
-	if err != nil {
-		return err
-	}
-	config.ServerHost = serverHost
-
-	// SMTP address
-	config.SMTPAddr = loadOptionalProperty(envSMTPAddress)
-
-	config.SMTPUser = loadOptionalProperty(envSMTPUser)
-	config.SMTPPass = loadOptionalProperty(envSMTPPassword)
-
-	adminEmails := loadOptionalProperty(envAdminEmails)
-
-	config.AdminEmail = strings.Split(adminEmails, ",")
-
-	config.MountLoc = loadOptionalProperty(envMountLocation)
-
-	config.WebPushEnabled = loadOptionalProperty(envWebpushEnabled) == "true"
-	config.WebPushSubscriber = loadOptionalProperty(envWebpushSubscriber)
-	config.VAPIDPrivateKey = loadOptionalProperty(envWebpushPrivateKey)
-
-	config.GoogleAnalyticsID = loadOptionalProperty(envGoogleAnalyticsID)
+	logger.Info("%#v", config)
 
 	return nil
-}
-
-func loadRequiredProperty(key string) (string, error) {
-	val, ok := os.LookupEnv(key)
-	if !ok {
-		return "", fmt.Errorf("required environment variable missing: %s", key)
-	}
-
-	return val, nil
-}
-
-func loadOptionalProperty(key string) string {
-	return os.Getenv(key)
 }

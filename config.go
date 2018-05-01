@@ -6,7 +6,6 @@ import (
 
 // Config to hold the database server and ddn server configuration
 type Config struct {
-	DBProvider        string   `toml:"db-provider"`
 	DBAddress         string   `toml:"db-addr"`
 	DBUser            string   `toml:"db-username"`
 	DBPass            string   `toml:"db-userpass"`
@@ -26,15 +25,9 @@ type Config struct {
 
 // Print prints the configuration to the log.
 func (c Config) Print() {
-	logger.Info("Database Provider:\t\t%s", c.DBProvider)
-
-	if c.DBProvider == "mysql" {
-		logger.Info("Database Address:\t\t%s", c.DBAddress)
-		logger.Info("Database User:\t\t%s", c.DBUser)
-		logger.Info("Database Name:\t\t%s", c.DBName)
-	} else if c.DBProvider == "sqlite" {
-		logger.Info("Database file location:\t%s", c.DBAddress)
-	}
+	logger.Info("Database Address:\t\t%s", c.DBAddress)
+	logger.Info("Database User:\t\t%s", c.DBUser)
+	logger.Info("Database Name:\t\t%s", c.DBName)
 
 	logger.Info("Server Host:\t\t%s", c.ServerHost)
 

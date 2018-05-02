@@ -393,7 +393,7 @@ func register(w http.ResponseWriter, r *http.Request) {
 
 	registry.Store(ddnc)
 
-	logger.Info("Registered: %v", req.AgentName)
+	logger.Info("Registered: %v", req.ShortName)
 
 	resp, _ := inet.JSONify(model.RegisterResponse{ID: ddnc.ID, Address: ddnc.Address})
 
@@ -412,7 +412,7 @@ func unregister(w http.ResponseWriter, r *http.Request) {
 
 	registry.Remove(agent.ShortName)
 
-	logger.Info("Unregistered: %s", agent.Identifier)
+	logger.Info("Unregistered: %s", agent.ShortName)
 }
 
 func heartbeat(w http.ResponseWriter, r *http.Request) {

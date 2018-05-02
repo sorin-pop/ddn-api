@@ -1,13 +1,12 @@
 FROM debian:stretch-slim
 
-RUN apt-get update && apt-get install sqlite3 -y
-RUN mkdir -p /ddn/data /ddn/ftp /ddn/web /ddn/web/dumps
+RUN mkdir -p /ftp /web /web/dumps
 
-COPY server /ddn
-COPY web /ddn/web
+COPY ddn-api /ddn-api
+COPY web /web
 
-VOLUME ["/ddn/data", "/ddn/ftp"]
+VOLUME ["/ftp"]
 
 EXPOSE 7010
 
-ENTRYPOINT ["/ddn/server", "-p", "/ddn/data/prod.conf", "-l", "/ddn/data/srv.log"]
+ENTRYPOINT ["/ddn-api"]

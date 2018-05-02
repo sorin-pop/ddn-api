@@ -1,6 +1,4 @@
-FROM djavorszky/ddn:build
-WORKDIR /go/src/github.com/djavorszky/ddn
-COPY agent ./agent
-COPY common ./common
-COPY server ./server
-RUN cd server && go build -ldflags "-X main.version=`date -u +%Y%m%d.%H%M%S`"
+FROM golang:1.10.1-stretch
+WORKDIR /go/src/github.com/djavorszky
+COPY ddn-api .
+RUN cd ddn-api && go build -ldflags "-X main.version=`date -u +%Y%m%d.%H%M%S`"

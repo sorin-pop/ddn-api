@@ -5,41 +5,37 @@ if [[ $# -ne 1 ]]; then
 else
     version=$1
     # rootloc is the base root of the repository
-    rootloc=`pwd`/../..
-
-    cp -r $rootloc/agent $rootloc/server $rootloc/common .
+    rootloc=`pwd`/..
 
     echo "building binary of server.."
-    docker build -f Dockerfile.build -t djavorszky/ddn:build .
+    cd $rootloc
+    GOOS=linux go build -ldflags "-X main.version=`date -u +%Y%m%d.%H%M%S`"
 
-    rm -rf $rootloc/dist/server/agent $rootloc/dist/server/server $rootloc/dist/server/common
-
-    docker container create --name extract djavorszky/ddn:build  
-    docker container cp extract:/go/src/github.com/djavorszky/ddn-api/server $rootloc/dist/server/server
-    docker container rm -f extract
+    cp $rootloc/ddn-api $rootloc/dist/ddn-api
 
     echo "updating libraries"
-    cd $rootloc/server/web
+    cd $rootloc/web
     npm install -u
 
     echo "copying server.."
-    cp -r $rootloc/server/web $rootloc/dist/server/web
+    cp -r $rootloc/web $rootloc/dist/web
 
-    cd $rootloc/dist/server
+    cd $rootloc/dist
 
-    echo "building server image"
-    docker build -t djavorszky/ddn:$version -t djavorszky/ddn:latest .
+    echo "building ddn-api image"
+    docker build -t djavorszky/ddn-api:$version -t djavorszky/ddn-api:latest .
 
     echo "stopping previous version"
-    docker stop ddn-server
-    docker rm ddn-server
-
-    echo "starting container.."
-    docker run -dit -p 7010:7010 --name ddn-server -v $rootloc/dist/data:/ddn/data -v $rootloc/dist/ftp:/ddn/ftp djavorszky/ddn:$version
+    docker stop ddn-api
+    docker rm ddn-api
 
     echo "removing artefacts.."
     rm -rf $rootloc/dist/server/server $rootloc/dist/server/web
 
-    docker push djavorszky/ddn:$version
-    docker push djavorszky/ddn:latest
+    docker push djavorszky/ddn-api:$version
+    docker push djavorszky/ddn-api:latest
+
+    #echo "starting container.."
+    #docker run -dit -p 7010:7010 --name ddn-server -v $rootloc/dist/data:/ddn/data -v $rootloc/dist/ftp:/ddn/ftp djavorszky/ddn:$version
+
 fi

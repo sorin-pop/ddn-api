@@ -416,6 +416,10 @@ var queries = []dbUpdate{
 		Query:   "CREATE UNIQUE INDEX `agent_db_idx` ON `databases` (`dbname`, `agentName`);",
 		Comment: "Create unique index on columns (dbname, agentName) for table databases",
 	},
+	{
+		Query:   "UPDATE `databases` SET dbAddress = CONCAT(dbAddress, \":\", dbPort) WHERE dbAddress NOT LIKE \"%:%\"",
+		Comment: "Merge dbAddress and dbPort where needed",
+	},
 }
 
 func (mys *DB) connect(datasource string) error {

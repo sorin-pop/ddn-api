@@ -38,7 +38,7 @@
   branch = "master"
   name = "github.com/djavorszky/liferay"
   packages = ["."]
-  revision = "2bdb07266e2657e5531b1e79d8c283b334ee2970"
+  revision = "f568eba641aba18216942be5079e78b52ca09e5a"
 
 [[projects]]
   branch = "master"

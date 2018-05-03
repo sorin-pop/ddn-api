@@ -757,16 +757,16 @@ func getDBAccess(meta data.Row) dbAccess {
 
 	switch meta.DBVendor {
 	case "mysql":
-		jdbc = liferay.MysqlJDBCDXP(meta.DBAddress, meta.DBPort, meta.DBName, meta.DBUser, meta.DBPass)
-		jdbc6210 = liferay.MysqlJDBC(meta.DBAddress, meta.DBPort, meta.DBName, meta.DBUser, meta.DBPass)
+		jdbc = liferay.MysqlJDBCDXP(meta.DBAddress, meta.DBName, meta.DBUser, meta.DBPass)
+		jdbc6210 = liferay.MysqlJDBC(meta.DBAddress, meta.DBName, meta.DBUser, meta.DBPass)
 	case "mariadb":
-		jdbc = liferay.MariaDBJDBC(meta.DBAddress, meta.DBPort, meta.DBName, meta.DBUser, meta.DBPass)
+		jdbc = liferay.MariaDBJDBC(meta.DBAddress, meta.DBName, meta.DBUser, meta.DBPass)
 	case "postgres":
-		jdbc = liferay.PostgreJDBC(meta.DBAddress, meta.DBPort, meta.DBName, meta.DBUser, meta.DBPass)
+		jdbc = liferay.PostgreJDBC(meta.DBAddress, meta.DBName, meta.DBUser, meta.DBPass)
 	case "oracle":
-		jdbc = liferay.OracleJDBC(meta.DBAddress, meta.DBPort, meta.DBSID, meta.DBUser, meta.DBPass)
+		jdbc = liferay.OracleJDBC(meta.DBAddress, meta.DBSID, meta.DBUser, meta.DBPass)
 	case "mssql":
-		jdbc = liferay.MSSQLJDBC(meta.DBAddress, meta.DBPort, meta.DBName, meta.DBUser, meta.DBPass)
+		jdbc = liferay.MSSQLJDBC(meta.DBAddress, meta.DBName, meta.DBUser, meta.DBPass)
 	}
 
 	dba := dbAccess{
@@ -774,7 +774,7 @@ func getDBAccess(meta data.Row) dbAccess {
 		JDBCUrl:    jdbc.URL,
 		User:       meta.DBUser,
 		Password:   meta.DBPass,
-		URL:        meta.DBAddress + ":" + meta.DBPort,
+		URL:        meta.DBAddress,
 	}
 
 	if jdbc6210.URL != "" {

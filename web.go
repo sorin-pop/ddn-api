@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/djavorszky/ddn-common/brwsr"
 	"github.com/djavorszky/ddn-api/database/data"
 	"github.com/djavorszky/ddn-api/registry"
+	"github.com/djavorszky/ddn-common/brwsr"
 	"github.com/djavorszky/ddn-common/logger"
 	"github.com/djavorszky/ddn-common/model"
 	"github.com/djavorszky/liferay"
@@ -105,19 +105,19 @@ func loadPage(w http.ResponseWriter, r *http.Request, pages ...string) {
 			} else {
 				switch entry.DBVendor {
 				case "mysql":
-					page.Ext62 = liferay.MysqlJDBC(entry.DBAddress, entry.DBPort, entry.DBName, entry.DBUser, entry.DBPass)
-					page.ExtDXP = liferay.MysqlJDBCDXP(entry.DBAddress, entry.DBPort, entry.DBName, entry.DBUser, entry.DBPass)
+					page.Ext62 = liferay.MysqlJDBC(entry.DBAddress, entry.DBName, entry.DBUser, entry.DBPass)
+					page.ExtDXP = liferay.MysqlJDBCDXP(entry.DBAddress, entry.DBName, entry.DBUser, entry.DBPass)
 				case "mariadb":
-					page.Ext62 = liferay.MariaDBJDBC(entry.DBAddress, entry.DBPort, entry.DBName, entry.DBUser, entry.DBPass)
+					page.Ext62 = liferay.MariaDBJDBC(entry.DBAddress, entry.DBName, entry.DBUser, entry.DBPass)
 					page.ExtDXP = page.Ext62
 				case "postgres":
-					page.Ext62 = liferay.PostgreJDBC(entry.DBAddress, entry.DBPort, entry.DBName, entry.DBUser, entry.DBPass)
+					page.Ext62 = liferay.PostgreJDBC(entry.DBAddress, entry.DBName, entry.DBUser, entry.DBPass)
 					page.ExtDXP = page.Ext62
 				case "oracle":
-					page.Ext62 = liferay.OracleJDBC(entry.DBAddress, entry.DBPort, entry.DBSID, entry.DBUser, entry.DBPass)
+					page.Ext62 = liferay.OracleJDBC(entry.DBAddress, entry.DBSID, entry.DBUser, entry.DBPass)
 					page.ExtDXP = page.Ext62
 				case "mssql":
-					page.Ext62 = liferay.MSSQLJDBC(entry.DBAddress, entry.DBPort, entry.DBName, entry.DBUser, entry.DBPass)
+					page.Ext62 = liferay.MSSQLJDBC(entry.DBAddress, entry.DBName, entry.DBUser, entry.DBPass)
 					page.ExtDXP = page.Ext62
 				}
 			}

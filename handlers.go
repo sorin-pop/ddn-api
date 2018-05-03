@@ -809,19 +809,19 @@ func upd8(w http.ResponseWriter, r *http.Request) {
 		if msg.Message == "Completed" {
 			switch dbe.DBVendor {
 			case "mysql":
-				jdbc62x = liferay.MysqlJDBC(dbe.DBAddress, dbe.DBPort, dbe.DBName, dbe.DBUser, dbe.DBPass)
-				jdbcDXP = liferay.MysqlJDBCDXP(dbe.DBAddress, dbe.DBPort, dbe.DBName, dbe.DBUser, dbe.DBPass)
+				jdbc62x = liferay.MysqlJDBC(dbe.DBAddress, dbe.DBName, dbe.DBUser, dbe.DBPass)
+				jdbcDXP = liferay.MysqlJDBCDXP(dbe.DBAddress, dbe.DBName, dbe.DBUser, dbe.DBPass)
 			case "mariadb":
-				jdbc62x = liferay.MariaDBJDBC(dbe.DBAddress, dbe.DBPort, dbe.DBName, dbe.DBUser, dbe.DBPass)
+				jdbc62x = liferay.MariaDBJDBC(dbe.DBAddress, dbe.DBName, dbe.DBUser, dbe.DBPass)
 				jdbcDXP = jdbc62x
 			case "postgres":
-				jdbc62x = liferay.PostgreJDBC(dbe.DBAddress, dbe.DBPort, dbe.DBName, dbe.DBUser, dbe.DBPass)
+				jdbc62x = liferay.PostgreJDBC(dbe.DBAddress, dbe.DBName, dbe.DBUser, dbe.DBPass)
 				jdbcDXP = jdbc62x
 			case "oracle":
-				jdbc62x = liferay.OracleJDBC(dbe.DBAddress, dbe.DBPort, dbe.DBSID, dbe.DBUser, dbe.DBPass)
+				jdbc62x = liferay.OracleJDBC(dbe.DBAddress, dbe.DBSID, dbe.DBUser, dbe.DBPass)
 				jdbcDXP = jdbc62x
 			case "mssql":
-				jdbc62x = liferay.MSSQLJDBC(dbe.DBAddress, dbe.DBPort, dbe.DBName, dbe.DBUser, dbe.DBPass)
+				jdbc62x = liferay.MSSQLJDBC(dbe.DBAddress, dbe.DBName, dbe.DBUser, dbe.DBPass)
 				jdbcDXP = jdbc62x
 			}
 

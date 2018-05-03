@@ -20,7 +20,7 @@ type Row struct {
 	Creator    string    `json:"creator"`
 	AgentName  string    `json:"agent"`
 	DBAddress  string    `json:"dbaddress"`
-	DBPort     string    `json:"dbport"`
+	DBPort     string    `json:"dbport,omitempty"`
 	Status     int       `json:"status"`
 	Label      string    `json:"status_label"`
 	Comment    string    `json:"comment"`

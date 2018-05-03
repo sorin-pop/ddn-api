@@ -52,8 +52,7 @@ Example success return:
       {
          "id":1,
          "vendor":"mariadb",
-         "dbport":"3309",
-         "dbaddress":"172.17.0.2",
+         "dbaddress":"172.17.0.2:3309",
          "sid":"",
          "agent":"mariadb-10",
          "agent_long":"mariadb 10.2.11",
@@ -96,8 +95,7 @@ Example success return:
       {
          "id":1,
          "vendor":"mariadb",
-         "dbport":"3309",
-         "dbaddress":"172.17.0.2",
+         "dbaddress":"172.17.0.2:3309",
          "sid":"",
          "agent":"mariadb-10",
          "agent_long":"mariadb 10.2.11",
@@ -140,8 +138,7 @@ Example success return:
    "data":{
       "id":1,
       "vendor":"mariadb",
-      "dbport":"3309",
-      "dbaddress":"172.17.0.2",
+      "dbaddress":"172.17.0.2:3309",
       "sid":"",
       "agent":"mariadb-10",
       "agent_long":"mariadb 10.2.11",
@@ -167,7 +164,7 @@ Failed returns:
 ### GET /api/databases
 Example
 
-`curl -H "Authorization:daniel.javorszky@liferay.com" http://localhost:7010/api/databases`
+`curl -H "Authorization:daniel.javorszky@liferay.com" http://cloud-db.liferay.int:7010/api/databases`
 
 ### Payload
 none
@@ -177,10 +174,10 @@ All metadata about the public databases and the ones created by the requester.
 
 Example success return:
 ```
-{  
+{
    "success":true,
-   "data":[  
-      {  
+   "data":[
+      {
          "id":16,
          "vendor":"mariadb",
          "dbname":"electric_adapter",
@@ -192,8 +189,7 @@ Example success return:
          "expirydate":"2018-02-07T13:25:46.148399558Z",
          "creator":"daniel.javorszky@liferay.com",
          "agent":"mariadb-10",
-         "dbaddress":"172.17.0.2",
-         "dbport":"3309",
+         "dbaddress":"172.17.0.2:3309",
          "status":100,
          "comment":"",
          "message":"",
@@ -231,8 +227,7 @@ Example success return:
       "expirydate":"2018-01-11T15:14:27.037070856Z",
       "creator":"daniel.javorszky@liferay.com",
       "agent":"mariadb-10",
-      "dbaddress":"172.17.0.2",
-      "dbport":"3309",
+      "dbaddress":"172.17.0.2:3309",
       "status":100,
       "comment":"",
       "message":"",
@@ -279,8 +274,7 @@ Example success return:
       "expirydate":"2018-01-11T15:14:27.037070856Z",
       "creator":"daniel.javorszky@liferay.com",
       "agent":"mariadb-10",
-      "dbaddress":"172.17.0.2",
-      "dbport":"3309",
+      "dbaddress":"172.17.0.2:3309",
       "status":100,
       "comment":"",
       "message":"",
@@ -395,8 +389,7 @@ Example success return:
       "expirydate":"2018-02-16T01:14:33.415546478Z",
       "creator":"daniel.javorszky@liferay.com",
       "agent":"mariadb-10",
-      "dbaddress":"172.17.0.2",
-      "dbport":"3309",
+      "dbaddress":"172.17.0.2:3309",
       "status":100,
       "comment":"",
       "message":"",
@@ -462,8 +455,7 @@ Example success return:
       "expirydate":"2018-02-16T01:14:33.415546478Z",
       "creator":"daniel.javorszky@liferay.com",
       "agent":"mariadb-10",
-      "dbaddress":"172.17.0.2",
-      "dbport":"3309",
+      "dbaddress":"172.17.0.2:3309",
       "status":100,
       "comment":"",
       "message":"",
@@ -558,8 +550,7 @@ Example success return:
       "expirydate":"2018-01-11T15:14:27.037070856Z",
       "creator":"daniel.javorszky@liferay.com",
       "agent":"mariadb-10",
-      "dbaddress":"172.17.0.2",
-      "dbport":"3309",
+      "dbaddress":"172.17.0.2:3309",
       "status":100,
       "comment":"",
       "message":"",

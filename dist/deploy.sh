@@ -35,6 +35,9 @@ else
     docker push djavorszky/ddn-api:$version
     docker push djavorszky/ddn-api:latest
 
+    echo "cleanup"
+    rm -rf $rootloc/dist/web $rootloc/dist/ddn-api
+
     #echo "starting container.."
     #docker run -dit -p 7010:7010 --name ddn-server -v $rootloc/dist/data:/ddn/data -v $rootloc/dist/ftp:/ddn/ftp djavorszky/ddn:$version
 

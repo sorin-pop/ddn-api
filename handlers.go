@@ -148,6 +148,10 @@ func doPrepImport(creator, agentName, dumpfile, dbname, dbuser, dbpass, public s
 		return 0, fmt.Errorf("agent went offline")
 	}
 
+	if dbuser == "root" {
+		return 0, fmt.Errorf("user with name 'root' is not allowed")
+	}
+
 	ensureValues(&dbname, &dbuser, &dbpass, agent.DBVendor)
 
 	entry := data.Row{
@@ -223,6 +227,15 @@ func importAction(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed getting session: "+err.Error(), http.StatusInternalServerError)
 	}
 	defer session.Save(r, w)
+
+	if dbuser == "root" {
+		session.AddFlash("Database user 'root' not allowed", "fail")
+		err = r.MultipartForm.RemoveAll()
+		if err != nil {
+			logger.Error("Could not removeall multipartform: %v", err)
+		}
+		return
+	}
 
 	var filename string
 	for _, uploadFile := range r.MultipartForm.File {
@@ -329,6 +342,12 @@ func createAction(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if dbuser == "root" {
+		session.AddFlash("Database user 'root' not allowed", "fail")
+
+		return
+	}
+
 	ensureValues(&dbname, &dbuser, &dbpass, agent.DBVendor)
 
 	entry := data.Row{
@@ -361,6 +380,7 @@ func createAction(w http.ResponseWriter, r *http.Request) {
 	resp, err := agent.CreateDatabase(ID, dbname, dbuser, dbpass)
 	if err != nil {
 		session.AddFlash(err.Error(), "fail")
+		db.Delete(entry)
 		return
 	}
 

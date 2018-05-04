@@ -34,7 +34,10 @@ function valid(selector) {
   var value = $(selector).val();
   var pattern = "^[a-zA-Z0-9$_]+$";
 
-  if (value.match(pattern) || value == "") {
+  if (
+    !(selector == "#user" && value == "root") &&
+    (value.match(pattern) || value == "")
+  ) {
     $(selector)
       .parent()
       .removeClass("has-danger");

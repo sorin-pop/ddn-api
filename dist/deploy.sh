@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ $2 == "--push" ]]; then
+if [[ $1 == "--push" ]]; then
     push="true"
     shift 1
 fi
@@ -29,10 +29,6 @@ else
 
     echo "building ddn-api image"
     docker build -t djavorszky/ddn-api:$version -t djavorszky/ddn-api:latest .
-
-    echo "stopping previous version"
-    docker stop ddn-api
-    docker rm ddn-api
 
     echo "removing artefacts.."
     rm -rf $rootloc/dist/server/server $rootloc/dist/server/web

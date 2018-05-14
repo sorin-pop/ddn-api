@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ $2 == "--push" ]]; then
+    push="true"
+    shift 1
+fi
+
 if [[ $# -ne 1 ]]; then
     echo 'Please specify the version. Should be major.minor.patch (e.g. 3.1.10).'
 else
@@ -32,13 +37,11 @@ else
     echo "removing artefacts.."
     rm -rf $rootloc/dist/server/server $rootloc/dist/server/web
 
-    docker push djavorszky/ddn-api:$version
-    docker push djavorszky/ddn-api:latest
+    if [[ $push == "true" ]]; then
+        docker push djavorszky/ddn-api:$version
+        docker push djavorszky/ddn-api:latest
+    fi
 
     echo "cleanup"
     rm -rf $rootloc/dist/web $rootloc/dist/ddn-api
-
-    #echo "starting container.."
-    #docker run -dit -p 7010:7010 --name ddn-server -v $rootloc/dist/data:/ddn/data -v $rootloc/dist/ftp:/ddn/ftp djavorszky/ddn:$version
-
 fi

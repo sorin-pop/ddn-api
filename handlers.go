@@ -726,13 +726,9 @@ func recreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp, err := agent.ExportDatabase(ID, dbe.DBName, dbe.DBUser, dbe.DBPass)
-	if err != nil {
-		session.AddFlash(err.Error(), "fail")
-		return
-	}
+	go recreateAsync(agent, dbe)
 
-	session.AddFlash(resp, "msg")
+	session.AddFlash("Started to recreate", "msg")
 }
 
 func recreateAsync(agent model.Agent, dbe data.Row) {

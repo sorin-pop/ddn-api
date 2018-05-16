@@ -32,7 +32,7 @@ func maintain() {
 			now := time.Now()
 
 			// if expired
-			if (dbe.ExpiryDate.Year() == now.Year()) && (dbe.ExpiryDate.YearDay() == now.YearDay()) {
+			if (dbe.ExpiryDate.Year() <= now.Year()) && (dbe.ExpiryDate.YearDay() <= now.YearDay()) {
 				agent, ok := registry.Get(dbe.AgentName)
 				if !ok {
 					logger.Error("drop database %q - agent %q offline", dbe.DBName, dbe.AgentName)

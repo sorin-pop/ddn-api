@@ -39,6 +39,8 @@ type Page struct {
 	WebPushEnabled         bool
 	DumpLoc                string
 	Version                string
+	BuildTime              string
+	Commit                 string
 	GoogleAnalyticsEnabled bool
 	GoogleAnalyticsID      string
 }
@@ -52,6 +54,8 @@ func loadPage(w http.ResponseWriter, r *http.Request, pages ...string) {
 		HasMountedFolder:       config.MountLoc != "",
 		WebPushEnabled:         config.WebPushEnabled,
 		Version:                version,
+		BuildTime:              buildTime,
+		Commit:                 commit,
 		GoogleAnalyticsEnabled: config.GoogleAnalyticsID != "",
 		GoogleAnalyticsID:      config.GoogleAnalyticsID,
 	}

@@ -16,7 +16,7 @@
 
 
 <footer class="blockquote-footer">
-    <small>Version: {{ .Version }}</small>
+    <small>Version: {{ .Version }}, built on {{ .BuildTime }} from <a href="https://github.com/djavorszky/ddn-api/commit/{{ .Commit }}" target="_blank">{{ .Commit }}</a></small>
 </footer>
 
 {{end}}

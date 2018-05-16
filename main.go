@@ -23,12 +23,13 @@ import (
 )
 
 var (
-	workdir string
-	config  Config
-	db      database.BackendConnection
+	workdir   string
+	config    Config
+	db        database.BackendConnection
+	version   string
+	buildTime string
+	commit    string
 )
-
-var version = ""
 
 func main() {
 	path, _ := filepath.Abs(os.Args[0])

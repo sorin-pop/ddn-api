@@ -14,8 +14,11 @@ else
 
     echo "building binary of server.."
     cd $rootloc
-    GOOS=linux go build -ldflags "-X main.version=`date -u +%Y%m%d.%H%M%S`"
+    date=`date -u "+%Y-%m-%d_%H:%M:%S"`
+    commit=`git log -n 1 --pretty=format:"%H"`
 
+    GOOS=linux go build -ldflags "-X main.version=${version} -X 'main.buildTime=`date`' -X main.commit=${commit}"
+    
     cp $rootloc/ddn-api $rootloc/dist/ddn-api
 
     echo "updating libraries"

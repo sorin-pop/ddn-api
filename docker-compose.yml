@@ -16,7 +16,7 @@ services:
       DDN_DBPASS: root
       DDN_DBNAME: ddn
       DDN_MOUNTLOC: /ftp
-      DDN_SERVERHOST: localhost:7010
+      DDN_SERVERHOST: ddn-api:7010
       DDN_STARTUPDELAY: 15s
 ## Start the MySQL 5.7 server. This is needed for the API/WEB server as well.
   mysql57:
@@ -130,7 +130,7 @@ services:
       DDN_LOCALDBADDR: oracle11g:1521
       DDN_REMOTEDBADDR: localhost:1521
       DDN_AGENTADDR: agent-oracle11g:7009
-      DDN_SHORTNAME: oracle_test
+      DDN_SHORTNAME: oracle_11g
       DDN_MASTERADDRESS: http://ddn-api:7010
       DDN_USER: system
       DDN_PASSWORD: password

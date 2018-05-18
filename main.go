@@ -107,6 +107,17 @@ func main() {
 		Database: config.DBName,
 	}
 
+	if config.StartupDelay != "" {
+		d, err := time.ParseDuration(config.StartupDelay)
+		if err != nil {
+			logger.Fatal("Invalid startup delay: %v", config.StartupDelay)
+		}
+
+		logger.Info("Delaying startup for %s", d)
+
+		time.Sleep(d)
+	}
+
 	err = db.ConnectAndPrepare()
 	if err != nil {
 		logger.Fatal("Failed to connect to database: %v", err)

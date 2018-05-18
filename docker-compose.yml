@@ -1,0 +1,173 @@
+version: "3.6"
+
+services:
+## Start the API/WEB server
+  ddn-api:
+    image: djavorszky/ddn-api:latest
+    ports:
+      - 7010:7010
+    volumes:
+      - ./ftp:/ftp
+    depends_on:
+      - mysql57
+    environment:
+      DDN_DBADDRESS: mysql57:3306
+      DDN_DBUSER: root
+      DDN_DBPASS: root
+      DDN_DBNAME: ddn
+      DDN_MOUNTLOC: /ftp
+      DDN_SERVERHOST: localhost:7010
+      DDN_STARTUPDELAY: 15s
+## Start the MySQL 5.7 server. This is needed for the API/WEB server as well.
+  mysql57:
+    image: mysql:5.7
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql57_db:/var/lib/mysql
+## Start the agent for the MySQL 5.7 database
+  agent-mysql57:
+    image: djavorszky/ddn-agent-mysql
+    depends_on:
+      - mysql57
+    environment:
+      DDN_VENDOR: mysql 
+      DDN_EXEC: /usr/bin/mysql
+      DDN_USER: root
+      DDN_PASSWORD: root
+      DDN_LOCALDBADDR: mysql57:3306
+      DDN_REMOTEDBADDR: localhost:3307
+      DDN_AGENTADDR: agent-mysql57:7000
+      DDN_SHORTNAME: mysql-57
+      DDN_MASTERADDRESS: http://ddn-api:7010
+      DDN_STARTUPDELAY: 16s
+## Start the MariaDB 10 server.
+  mariadb10:
+    image: mariadb:10
+    ports:
+      - 3309:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mariadb10_db:/var/lib/mysql
+## Start the agent for the MariaDB 10 database
+  agent-mariadb10:
+    image: djavorszky/ddn-agent-mysql
+    depends_on:
+      - mariadb10
+    environment:
+      DDN_VENDOR: mariadb
+      DDN_EXEC: /usr/bin/mysql
+      DDN_USER: root
+      DDN_PASSWORD: root
+      DDN_LOCALDBADDR: mariadb10:3306
+      DDN_REMOTEDBADDR: localhost:3309
+      DDN_AGENTADDR: agent-mariadb10:7000
+      DDN_SHORTNAME: mariadb-10
+      DDN_MASTERADDRESS: http://ddn-api:7010
+      DDN_STARTUPDELAY: 16s
+## Start the PostgreSQL 9.4 server.
+  postgres94:
+    image: postgres:9.4
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: root
+    volumes:
+      - postgres94_db:/var/lib/postgresql/data
+## Start the agent for the PostgreSQL 9.4 database
+  agent-postgres94:
+    image: djavorszky/ddn-agent-postgres
+    depends_on:
+      - postgres94
+    environment:
+      DDN_VENDOR: postgres
+      DDN_EXEC: /usr/bin/psql
+      DDN_USER: postgres
+      DDN_PASSWORD: root
+      DDN_LOCALDBADDR: postgres94:5432
+      DDN_REMOTEDBADDR: localhost:5432
+      DDN_AGENTADDR: agent-postgres94:7000
+      DDN_SHORTNAME: postgres-94
+      DDN_MASTERADDRESS: http://ddn-api:7010
+      DDN_STARTUPDELAY: 16s
+
+## Oracle does not work yet - there's a bug, probably on our end that's
+## preventing the agent from starting up successfully. That, and because
+## currently we need to grant a couple of things to system:
+##
+## grant select on dba_datapump_jobs to system;
+## grant create any directory to system;
+## grant create external job to system;
+## 
+## Still, I'm keeping this here because all the necessary settings are there
+## and once the above is resolved, it should start up successfully.
+##
+## Also, the agent waits for 70 seconds with startup because Oracle requires a 
+## LONG time to load up (~70 seconds).
+
+## Start Oracle 11g server
+  oracle11g:
+    image: sath89/oracle-xe-11g
+    ports:
+      - 1521:1521
+    volumes:
+      - oracle11g_db:/u01/app/oracle
+      - ./oradumps:/dumps
+    environment:
+      PASS: password
+      DEFAULT_SYS_PASS: password
+## Start the Oracle 11g agent
+  agent-oracle11g:
+    image: djavorszky/ddn-agent-oracle
+    volumes:
+      - ./oradumps:/dumps
+    depends_on:
+      - oracle11g
+    environment:
+      DDN_LOCALDBADDR: oracle11g:1521
+      DDN_REMOTEDBADDR: localhost:1521
+      DDN_AGENTADDR: agent-oracle11g:7009
+      DDN_SHORTNAME: oracle_test
+      DDN_MASTERADDRESS: http://ddn-api:7010
+      DDN_USER: system
+      DDN_PASSWORD: password
+      DDN_SID: xe
+      DDN_DATAFILEDIR: /u01/app/oracle/oradata/XE
+      DDN_STARTUPDELAY: 15s
+
+# # Start the MySQL 5.6 server.
+#   mysql56:
+#     image: mysql:5.6
+#     ports:
+#       - 3308:3306
+#     environment:
+#       MYSQL_ROOT_PASSWORD: root
+#     volumes:
+#       - mysql56_db:/var/lib/mysql
+
+# # Start the agent for the MySQL 5.6 database
+#   agent-mysql56:
+#     image: djavorszky/ddn-agent-mysql
+#     depends_on:
+#       - mysql56
+#     environment:
+#       DDN_VENDOR: mysql
+#       DDN_EXEC: /usr/bin/mysql
+#       DDN_USER: root
+#       DDN_PASSWORD: root
+#       DDN_LOCALDBADDR: mysql56:3306
+#       DDN_REMOTEDBADDR: localhost:3308
+#       DDN_AGENTADDR: agent-mysql56:7000
+#       DDN_SHORTNAME: mysql-56
+#       DDN_MASTERADDRESS: http://ddn-api:7010
+#       DDN_STARTUPDELAY: 10s
+
+volumes:
+  mysql57_db:
+  mysql56_db:
+  mariadb10_db:
+  postgres94_db:
+  oracle11g_db:

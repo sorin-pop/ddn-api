@@ -1,4 +1,4 @@
-version: "3.6"
+version: "3.2"
 
 services:
 ## Start the API/WEB server
@@ -17,7 +17,7 @@ services:
       DDN_DBNAME: ddn
       DDN_MOUNTLOC: /ftp
       DDN_SERVERHOST: ddn-api:7010
-      DDN_STARTUPDELAY: 15s
+      DDN_STARTUPDELAY: 10s
 ## Start the MySQL 5.7 server. This is needed for the API/WEB server as well.
   mysql57:
     image: mysql:5.7
@@ -27,9 +27,9 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - mysql57_db:/var/lib/mysql
-## Start the agent for the MySQL 5.7 database
+# ## Start the agent for the MySQL 5.7 database
   agent-mysql57:
-    image: djavorszky/ddn-agent-mysql
+    image: djavorszky/ddn-agent-mysql:5.2.1
     depends_on:
       - mysql57
     environment:
@@ -54,7 +54,7 @@ services:
       - mariadb10_db:/var/lib/mysql
 ## Start the agent for the MariaDB 10 database
   agent-mariadb10:
-    image: djavorszky/ddn-agent-mysql
+    image: djavorszky/ddn-agent-mysql:5.2.1
     depends_on:
       - mariadb10
     environment:
@@ -79,7 +79,7 @@ services:
       - postgres94_db:/var/lib/postgresql/data
 ## Start the agent for the PostgreSQL 9.4 database
   agent-postgres94:
-    image: djavorszky/ddn-agent-postgres
+    image: djavorszky/ddn-agent-postgres:5.2.1
     depends_on:
       - postgres94
     environment:
@@ -94,19 +94,11 @@ services:
       DDN_MASTERADDRESS: http://ddn-api:7010
       DDN_STARTUPDELAY: 16s
 
-## Oracle does not work yet - there's a bug, probably on our end that's
-## preventing the agent from starting up successfully. That, and because
-## currently we need to grant a couple of things to system:
-##
-## grant select on dba_datapump_jobs to system;
-## grant create any directory to system;
-## grant create external job to system;
-## 
-## Still, I'm keeping this here because all the necessary settings are there
-## and once the above is resolved, it should start up successfully.
-##
-## Also, the agent waits for 70 seconds with startup because Oracle requires a 
-## LONG time to load up (~70 seconds).
+
+## On first startup, it takes around 70-80 seconds for the oracle
+## server to start up. Subsequent startups take about 10 seconds.
+## As such, the agent should wait for longer at first start up or
+## the whole thing should be restarted once first run is completed.
 
 ## Start Oracle 11g server
   oracle11g:
@@ -121,7 +113,7 @@ services:
       DEFAULT_SYS_PASS: password
 ## Start the Oracle 11g agent
   agent-oracle11g:
-    image: djavorszky/ddn-agent-oracle
+    image: djavorszky/ddn-agent-oracle:5.2.1
     volumes:
       - ./oradumps:/dumps
     depends_on:
@@ -135,35 +127,36 @@ services:
       DDN_USER: system
       DDN_PASSWORD: password
       DDN_SID: xe
+      DDN_SYSPASSWORD: password
       DDN_DATAFILEDIR: /u01/app/oracle/oradata/XE
-      DDN_STARTUPDELAY: 15s
+      DDN_STARTUPDELAY: 11s
 
-# # Start the MySQL 5.6 server.
-#   mysql56:
-#     image: mysql:5.6
-#     ports:
-#       - 3308:3306
-#     environment:
-#       MYSQL_ROOT_PASSWORD: root
-#     volumes:
-#       - mysql56_db:/var/lib/mysql
+# Start the MySQL 5.6 server.
+  mysql56:
+    image: mysql:5.6
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql56_db:/var/lib/mysql
 
-# # Start the agent for the MySQL 5.6 database
-#   agent-mysql56:
-#     image: djavorszky/ddn-agent-mysql
-#     depends_on:
-#       - mysql56
-#     environment:
-#       DDN_VENDOR: mysql
-#       DDN_EXEC: /usr/bin/mysql
-#       DDN_USER: root
-#       DDN_PASSWORD: root
-#       DDN_LOCALDBADDR: mysql56:3306
-#       DDN_REMOTEDBADDR: localhost:3308
-#       DDN_AGENTADDR: agent-mysql56:7000
-#       DDN_SHORTNAME: mysql-56
-#       DDN_MASTERADDRESS: http://ddn-api:7010
-#       DDN_STARTUPDELAY: 10s
+# Start the agent for the MySQL 5.6 database
+  agent-mysql56:
+    image: djavorszky/ddn-agent-mysql
+    depends_on:
+      - mysql56
+    environment:
+      DDN_VENDOR: mysql
+      DDN_EXEC: /usr/bin/mysql
+      DDN_USER: root
+      DDN_PASSWORD: root
+      DDN_LOCALDBADDR: mysql56:3306
+      DDN_REMOTEDBADDR: localhost:3308
+      DDN_AGENTADDR: agent-mysql56:7000
+      DDN_SHORTNAME: mysql-56
+      DDN_MASTERADDRESS: http://ddn-api:7010
+      DDN_STARTUPDELAY: 10s
 
 volumes:
   mysql57_db:

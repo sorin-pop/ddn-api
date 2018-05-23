@@ -83,6 +83,13 @@ func main() {
 		logger.Fatal("Failed loading configuration: %v", err)
 	}
 
+	logLevel, err := logger.Parse(config.LogLevel)
+	if err != nil {
+		logLevel = logger.INFO
+	}
+
+	logger.Level = logLevel
+
 	logger.Info("Version: %s", version)
 
 	logger.Info("Starting with properties:")

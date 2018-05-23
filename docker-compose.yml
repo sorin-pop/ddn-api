@@ -3,11 +3,11 @@ version: "3.2"
 services:
 ## Start the API/WEB server
   ddn-api:
-    image: djavorszky/ddn-api:latest
+    image: djavorszky/ddn-api:5.2.0
     ports:
       - 7010:7010
     volumes:
-      - ./ftp:/ftp
+      - ./dumps:/ftp
     depends_on:
       - mysql57
     environment:
@@ -29,7 +29,7 @@ services:
       - mysql57_db:/var/lib/mysql
 # ## Start the agent for the MySQL 5.7 database
   agent-mysql57:
-    image: djavorszky/ddn-agent-mysql:5.2.1
+    image: djavorszky/ddn-agent-mysql:5.2.2
     depends_on:
       - mysql57
     environment:
@@ -42,6 +42,7 @@ services:
       DDN_AGENTADDR: agent-mysql57:7000
       DDN_SHORTNAME: mysql-57
       DDN_MASTERADDRESS: http://ddn-api:7010
+      DDN_LOGLEVEL: info
       DDN_STARTUPDELAY: 16s
 ## Start the MariaDB 10 server.
   mariadb10:
@@ -67,6 +68,7 @@ services:
       DDN_AGENTADDR: agent-mariadb10:7000
       DDN_SHORTNAME: mariadb-10
       DDN_MASTERADDRESS: http://ddn-api:7010
+      DDN_LOGLEVEL: info
       DDN_STARTUPDELAY: 16s
 ## Start the PostgreSQL 9.4 server.
   postgres94:
@@ -79,7 +81,7 @@ services:
       - postgres94_db:/var/lib/postgresql/data
 ## Start the agent for the PostgreSQL 9.4 database
   agent-postgres94:
-    image: djavorszky/ddn-agent-postgres:5.2.1
+    image: djavorszky/ddn-agent-postgres:5.2.2
     depends_on:
       - postgres94
     environment:
@@ -92,6 +94,7 @@ services:
       DDN_AGENTADDR: agent-postgres94:7000
       DDN_SHORTNAME: postgres-94
       DDN_MASTERADDRESS: http://ddn-api:7010
+      DDN_LOGLEVEL: info
       DDN_STARTUPDELAY: 16s
 
 
@@ -107,15 +110,15 @@ services:
       - 1521:1521
     volumes:
       - oracle11g_db:/u01/app/oracle
-      - ./oradumps:/dumps
+      - oracle_dumps:/dumps
     environment:
       PASS: password
       DEFAULT_SYS_PASS: password
 ## Start the Oracle 11g agent
   agent-oracle11g:
-    image: djavorszky/ddn-agent-oracle:5.2.1
+    image: djavorszky/ddn-agent-oracle:5.2.2
     volumes:
-      - ./oradumps:/dumps
+      - oracle_dumps:/dumps
     depends_on:
       - oracle11g
     environment:
@@ -128,6 +131,7 @@ services:
       DDN_PASSWORD: password
       DDN_SID: xe
       DDN_SYSPASSWORD: password
+      DDN_LOGLEVEL: info
       DDN_DATAFILEDIR: /u01/app/oracle/oradata/XE
       DDN_STARTUPDELAY: 11s
 
@@ -164,3 +168,4 @@ volumes:
   mariadb10_db:
   postgres94_db:
   oracle11g_db:
+  oracle_dumps:

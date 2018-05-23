@@ -21,6 +21,7 @@ type Config struct {
 	WebPushSubscriber string   `toml:"webpush-subscriber"`
 	VAPIDPrivateKey   string   `toml:"vapid-private-key"`
 	GoogleAnalyticsID string   `toml:"google-analytics-id"`
+	LogLevel          string   `toml:"log-level"`
 	StartupDelay      string   `toml:"startup-delay"`
 }
 

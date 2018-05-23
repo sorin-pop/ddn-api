@@ -3,7 +3,7 @@ version: "3.2"
 services:
 ## Start the API/WEB server
   ddn-api:
-    image: djavorszky/ddn-api:5.2.0
+    image: djavorszky/ddn-api:5.2.2
     ports:
       - 7010:7010
     volumes:

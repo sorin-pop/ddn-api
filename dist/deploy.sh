@@ -37,7 +37,8 @@ else
     rm -rf $rootloc/dist/server/server $rootloc/dist/server/web
 
     if [[ $push == "true" ]]; then
-        docker push djavorszky/ddn-api
+        docker push djavorszky/ddn-api:$version
+        docker push djavorszky/ddn-api:latest
     fi
 
     echo "cleanup"

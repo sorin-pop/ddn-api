@@ -122,7 +122,7 @@ func loadPage(w http.ResponseWriter, r *http.Request, pages ...string) {
 					page.ExtDXP = page.Ext62
 				case "mssql":
 					page.Ext62 = liferay.MSSQLJDBC(entry.DBAddress, entry.DBName, entry.DBUser, entry.DBPass)
-					page.ExtDXP = page.Ext62
+					page.ExtDXP = liferay.MSSQLJDBCDXP(entry.DBAddress, entry.DBName, entry.DBUser, entry.DBPass)
 				}
 			}
 		}

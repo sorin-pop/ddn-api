@@ -162,6 +162,31 @@ services:
       DDN_MASTERADDRESS: http://ddn-api:7010
       DDN_STARTUPDELAY: 10s
 
+### Note: the MSSQL servers don't really work yet.
+# Start the MSSQL 2017 server.
+  mssql2017:
+    image: microsoft/mssql-server-linux:2017-latest
+    ports:
+      - 1433:1433
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: TestTest1234
+# Start the agent for the MSSQL 2017 database
+  agent-mssql2017:
+    image: djavorszky/ddn-agent-mssql:5.2.5
+    depends_on:
+      - mssql2017
+    environment:
+      DDN_USER: sa
+      DDN_PASSWORD: TestTest1234
+      DDN_LOCALDBADDR: mssql2017:1433
+      DDN_REMOTEDBADDR: localhost:1433
+      DDN_AGENTADDR: agent-mssql2017:7000
+      DDN_SHORTNAME: mssql-2017
+      DDN_MASTERADDRESS: http://ddn-api:7010
+      DDN_LOGLEVEL: info
+      DDN_STARTUPDELAY: 11s
+
 volumes:
   mysql57_db:
   mysql56_db:

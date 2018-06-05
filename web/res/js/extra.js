@@ -81,12 +81,10 @@ function checkAgent() {
         .attr("data-original-title", msg)
         .tooltip("hide");
     } else if (agentVal.includes("mssql") || agentVal.includes("sql server")) {
-      msg = "User and password not needed for SQL Server.";
+      msg =
+        "SQL Server requires at least 8 alphanumerical characters with at least 1 uppercase and lowercase letter.";
 
-      $("#user").prop("disabled", true);
-      $("#password").prop("disabled", true);
-
-      $("#userdiv")
+      $("#password")
         .attr("title", msg)
         .attr("data-original-title", msg)
         .tooltip("hide");

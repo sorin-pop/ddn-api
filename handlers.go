@@ -715,7 +715,7 @@ func recreate(w http.ResponseWriter, r *http.Request) {
 
 	if dbe.Creator != user {
 		logger.Error("User %q tried to get recreate the database created by %q.", user, dbe.Creator)
-		session.AddFlash("Failed recreating databasee: You can only recreate database you created.", "fail")
+		session.AddFlash("Failed recreating database: You can only recreate database you created.", "fail")
 		return
 	}
 
@@ -891,11 +891,6 @@ func upd8(w http.ResponseWriter, r *http.Request) {
 }
 
 func ensureValues(dbname, dbuser, dbpass *string, vendor string) {
-	if vendor == "mssql" {
-		*dbuser = "clouddb"
-		*dbpass = "password"
-	}
-
 	if *dbuser == "" {
 		*dbuser = sutils.RandName()
 	}

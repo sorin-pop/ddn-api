@@ -32,7 +32,7 @@
     "status",
     "visibility"
   ]
-  revision = "138a65465e876afd4a89862d220ec1d7ef4b8d15"
+  revision = "96b4a2a4e004f374412926f5af2f093373798508"
 
 [[projects]]
   branch = "master"

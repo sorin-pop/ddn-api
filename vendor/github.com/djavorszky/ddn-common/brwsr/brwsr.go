@@ -53,10 +53,10 @@ func Mount(path string) error {
 		}
 
 		if os.IsPermission(err) {
-			return fmt.Errorf("permission issue: %s", err.Error())
+			return fmt.Errorf("permission issue: %v", err)
 		}
 
-		return fmt.Errorf("unknown issue: %s", err.Error())
+		return fmt.Errorf("unknown issue: %v", err)
 	}
 
 	root = path
@@ -74,7 +74,7 @@ func List(relPath string) (FileList, error) {
 
 	list, err := ioutil.ReadDir(fullPath(relPath))
 	if err != nil {
-		return flist, fmt.Errorf("failed reading dir: %s", err.Error())
+		return flist, fmt.Errorf("failed reading dir: %v", err)
 	}
 
 	var res []Entry
@@ -83,12 +83,21 @@ func List(relPath string) (FileList, error) {
 			continue
 		}
 
+		dir := item.IsDir()
+
+		/*
+			// Is it a symlink?
+			if item.Mode()&os.ModeSymlink != 0 {
+				dir = true
+			}
+		*/
+
 		entry := Entry{
 			Name:    item.Name(),
 			Path:    filepath.Join(relPath, item.Name()),
 			Size:    item.Size(),
 			ModTime: item.ModTime(),
-			Folder:  item.IsDir(),
+			Folder:  dir,
 		}
 
 		res = append(res, entry)
@@ -138,7 +147,7 @@ func (e Entry) Importable() bool {
 
 	switch strings.ToLower(ext) {
 	// dump endings
-	case ".sql", ".dmp", ".dpdmp", ".bak":
+	case ".sql", ".dmp", ".dump", ".dpdmp", ".bak", ".bk":
 		return true
 	// supported archive settings
 	case ".zip", ".tar", ".gz", ".bz2":

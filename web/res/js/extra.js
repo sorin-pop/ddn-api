@@ -14,6 +14,10 @@ $(document).ready(function() {
   $("#user").keyup(function() {
     checkInputs();
   });
+
+  $("#password").keyup(function() {
+    checkInputs();
+  });
 });
 
 $(document).on("change", "#agent", function() {
@@ -23,16 +27,27 @@ $(document).on("change", "#agent", function() {
 });
 
 function checkInputs() {
-  if (valid("#dbname") && valid("#user")) {
+  const userPattern = "^[a-zA-Z0-9$_]+$";
+  const pwPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
+
+  var agent = $("#agent");
+
+  agentVal = agent.val() == null ? "" : agent.val().toLowerCase();
+
+  if (
+    valid("#dbname", userPattern) &&
+    valid("#user", userPattern) &&
+    ((agentVal.includes("mssql") || agentVal.includes("sql server")) &&
+      valid("#password", pwPattern))
+  ) {
     $("button").prop("disabled", false);
   } else {
     $("button").prop("disabled", true);
   }
 }
 
-function valid(selector) {
+function valid(selector, pattern) {
   var value = $(selector).val();
-  var pattern = "^[a-zA-Z0-9$_]+$";
 
   if (
     !(selector == "#user" && value == "root") &&
@@ -69,6 +84,10 @@ function checkAgent() {
       .attr("title", "")
       .attr("data-original-title", "")
       .tooltip("hide");
+    $("#password")
+      .attr("title", "")
+      .attr("data-original-title", "")
+      .tooltip("hide");
 
     agentVal = agent.val() == null ? "" : agent.val().toLowerCase();
 
@@ -91,6 +110,8 @@ function checkAgent() {
     }
   }
 }
+
+function checkPWInput() {}
 
 $(document).ready(function() {
   $(".table").DataTable({

@@ -50,7 +50,7 @@
   branch = "master"
   name = "github.com/djavorszky/sutils"
   packages = ["."]
-  revision = "fbffda544f9c4de805cd645e51cd73b56b9c31a7"
+  revision = "502d1afa671fc8197de1571899a84f7aad9bbfe1"
 
 [[projects]]
   name = "github.com/go-sql-driver/mysql"
@@ -99,6 +99,12 @@
   packages = ["."]
   revision = "f611eb38b3875cc3bd991ca91c51d06446afa14c"
   version = "v1.3.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/sethvargo/go-password"
+  packages = ["password"]
+  revision = "5e68a1664a916642585547c10af910927627055a"
 
 [[projects]]
   branch = "master"

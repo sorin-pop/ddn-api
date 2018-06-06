@@ -3,6 +3,8 @@ package sutils
 import (
 	"strings"
 
+	"github.com/sethvargo/go-password/password"
+
 	"github.com/icrowley/fake"
 )
 
@@ -25,5 +27,5 @@ func RandDBName() string {
 
 // RandPassword returns a random password that can be used for databases
 func RandPassword() string {
-	return RandName()
+	return password.MustGenerate(12, 4, 0, false, true)
 }

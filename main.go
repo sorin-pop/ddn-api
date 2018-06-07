@@ -200,6 +200,8 @@ func loadPropertiesFromFile(filename string) error {
 func loadPropertiesFromEnv() error {
 	err := envconfig.Process("ddn", &config)
 	if err != nil {
+		envconfig.Usage("ddn", &config)
+
 		return fmt.Errorf("reading from env: %v", err)
 	}
 

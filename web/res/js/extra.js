@@ -52,8 +52,6 @@ function valid(selector, pattern) {
     !(selector == "#user" && value == "root") &&
     (value.match(pattern) || value == "")
   ) {
-    console.log(selector, pattern, "OK");
-
     $(selector)
       .parent()
       .removeClass("has-danger");
@@ -61,8 +59,6 @@ function valid(selector, pattern) {
 
     return true;
   }
-
-  console.log(selector, pattern, "NOT OK");
 
   $(selector)
     .parent()

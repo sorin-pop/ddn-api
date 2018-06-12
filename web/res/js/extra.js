@@ -37,8 +37,7 @@ function checkInputs() {
   if (
     valid("#dbname", userPattern) &&
     valid("#user", userPattern) &&
-    ((agentVal.includes("mssql") || agentVal.includes("sql server")) &&
-      valid("#password", pwPattern))
+    valid("#password", pwPattern)
   ) {
     $("button").prop("disabled", false);
   } else {
@@ -53,6 +52,8 @@ function valid(selector, pattern) {
     !(selector == "#user" && value == "root") &&
     (value.match(pattern) || value == "")
   ) {
+    console.log(selector, pattern, "OK");
+
     $(selector)
       .parent()
       .removeClass("has-danger");
@@ -60,6 +61,8 @@ function valid(selector, pattern) {
 
     return true;
   }
+
+  console.log(selector, pattern, "NOT OK");
 
   $(selector)
     .parent()
@@ -91,23 +94,23 @@ function checkAgent() {
 
     agentVal = agent.val() == null ? "" : agent.val().toLowerCase();
 
-    if (agentVal.includes("oracle")) {
-      msg =
-        'Not needed for Oracle. Think of the User field below as the "database", as it will also be the Oracle schema that will contain the tables and their data.';
+    msg =
+      "Password requires 8 alphanumerical characters with at least 1 being uppercase.";
 
-      $("#dbname").prop("disabled", true);
-      $("#dbnamediv")
-        .attr("data-original-title", msg)
-        .tooltip("hide");
-    } else if (agentVal.includes("mssql") || agentVal.includes("sql server")) {
-      msg =
-        "SQL Server requires at least 8 alphanumerical characters with at least 1 uppercase and lowercase letter.";
+    $("#password")
+      .attr("title", msg)
+      .attr("data-original-title", msg)
+      .tooltip("hide");
+  }
 
-      $("#password")
-        .attr("title", msg)
-        .attr("data-original-title", msg)
-        .tooltip("hide");
-    }
+  if (agentVal.includes("oracle")) {
+    msg =
+      'Not needed for Oracle. Think of the User field below as the "database", as it will also be the Oracle schema that will contain the tables and their data.';
+
+    $("#dbname").prop("disabled", true);
+    $("#dbnamediv")
+      .attr("data-original-title", msg)
+      .tooltip("hide");
   }
 }
 

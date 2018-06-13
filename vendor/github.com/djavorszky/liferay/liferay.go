@@ -21,7 +21,7 @@ type JDBC struct {
 // properties file.
 func OracleJDBC(address, sid, user, password string) JDBC {
 	return JDBC{
-		Driver:   "jdbc.default.driverClassName=oracle.jdbc.driver.OracleDriver",
+		Driver:   "jdbc.default.driverClassName=oracle.jdbc.OracleDriver",
 		URL:      fmt.Sprintf("jdbc.default.url=jdbc:oracle:thin:@%s:%s", address, sid),
 		User:     fmt.Sprintf("jdbc.default.username=%s", user),
 		Password: fmt.Sprintf("jdbc.default.password=%s", password),

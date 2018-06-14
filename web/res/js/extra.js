@@ -94,7 +94,10 @@ function checkAgent() {
       .attr("data-original-title", "")
       .tooltip("hide");
 
-    agentVal = agent.val() == null ? "" : agent.val().toLowerCase();
+    var agentVal = "";
+    if (agent.val() != null) {
+      agentVal = agent.val().toLowerCase();
+    }
 
     msg =
       "Password requires 8 alphanumerical characters with at least 1 being uppercase.";
@@ -103,16 +106,16 @@ function checkAgent() {
       .attr("title", msg)
       .attr("data-original-title", msg)
       .tooltip("hide");
-  }
 
-  if (agentVal.includes("oracle")) {
-    msg =
-      'Not needed for Oracle. Think of the User field below as the "database", as it will also be the Oracle schema that will contain the tables and their data.';
+    if (agentVal.includes("oracle")) {
+      msg =
+        'Not needed for Oracle. Think of the User field below as the "database", as it will also be the Oracle schema that will contain the tables and their data.';
 
-    $("#dbname").prop("disabled", true);
-    $("#dbnamediv")
-      .attr("data-original-title", msg)
-      .tooltip("hide");
+      $("#dbname").prop("disabled", true);
+      $("#dbnamediv")
+        .attr("data-original-title", msg)
+        .tooltip("hide");
+    }
   }
 }
 

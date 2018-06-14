@@ -25,19 +25,28 @@
             <div class="form-group row">
                 <label for="dbname" class="col-sm-3 col-form-label">Database name</label>
                 <div class="col-sm-9" id="dbnamediv" data-toggle="tooltip" data-placement="right" title="">
-                    <input type="text" class="form-control" id="dbname" name="dbname" placeholder="Database name (optional)" pattern="^[a-zA-Z][a-zA-Z0-9_]+$" title="Only alphanumeric characters and underscore, no whitespace. Must begin with a letter of the alphabet.">
+                    <input type="text" class="form-control" id="dbname" name="dbname" placeholder="Database name (optional)" pattern="^[a-zA-Z][a-zA-Z0-9_]+$">
+                    <div class="invalid-feedback">
+                        Only alphanumeric characters and underscore, no whitespace. Must begin with a letter of the alphabet.
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="user" class="col-sm-3 col-form-label">Database user</label>
                 <div class="col-sm-9" id="userdiv" data-toggle="tooltip" data-placement="right" title="">
-                    <input type="text" class="form-control" id="user" name="user" placeholder="Database user (optional)" pattern="^[a-zA-Z][a-zA-Z0-9_]+$" title="Only alphanumeric characters and underscore, no whitespace. Must begin with a letter of the alphabet.  Can't be 'root'.">
+                    <input type="text" class="form-control" id="user" name="user" placeholder="Database user (optional)"  pattern="^[a-zA-Z][a-zA-Z0-9_]+$">
+                    <div class="invalid-feedback">
+                      Only alphanumeric characters and underscore, no whitespace. Must begin with a letter of the alphabet. Can't be 'root'.
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="password" class="col-sm-3 col-form-label">Database password</label>
                 <div class="col-sm-9">
                     <input type="password" class="form-control" id="password" name="password" placeholder="Database password (optional)">
+                    <div class="invalid-feedback">
+                       Password must be at least 8 characters long and contain one upper- and lowercase letter and one number.
+                    </div>
                 </div>
             </div>
             <div class="form-group row">

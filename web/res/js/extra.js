@@ -27,7 +27,7 @@ $(document).on("change", "#agent", function() {
 });
 
 function checkInputs() {
-  const userPattern = "^[a-zA-Z0-9$_]+$";
+  const userPattern = "^[a-zA-Z][a-zA-Z0-9_]+$";
   const pwPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
 
   var agent = $("#agent");
@@ -53,17 +53,23 @@ function valid(selector, pattern) {
     (value.match(pattern) || value == "")
   ) {
     $(selector)
-      .parent()
-      .removeClass("has-danger");
-    $(selector).removeClass("form-control-danger");
+      .removeClass("is-invalid")
+      .addClass("is-valid");
+
+    $(selector)
+      .siblings()
+      .hide();
 
     return true;
   }
 
   $(selector)
-    .parent()
-    .addClass("has-danger");
-  $(selector).addClass("form-control-danger");
+    .removeClass("is-valid")
+    .addClass("is-invalid");
+
+  $(selector)
+    .siblings()
+    .show();
 
   return false;
 }

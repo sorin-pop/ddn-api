@@ -8,6 +8,7 @@ import (
 	"github.com/djavorszky/ddn-api/registry"
 	"github.com/djavorszky/ddn-common/inet"
 	"github.com/djavorszky/ddn-common/logger"
+	"github.com/djavorszky/ddn-common/model"
 	"github.com/djavorszky/ddn-common/status"
 )
 
@@ -117,19 +118,29 @@ func checkAgents() {
 			addr := fmt.Sprintf("%s/heartbeat", agent.Address)
 
 			if !inet.AddrExists(addr) && agent.Up {
-				agent.Up = false
+				logger.Debug("Agent %q may have disappeared, doing double check", agent.ShortName)
+				// Do a double check 10 seconds later.
+				go func(agent model.Agent) {
+					time.Sleep(10 * time.Second)
 
-				registry.Store(agent)
+					if !inet.AddrExists(addr) {
+						logger.Debug("Agent %q disappeared", agent.ShortName)
 
-				for _, addr := range config.AdminEmail {
-					mail.Send(addr, "[Cloud DB] Agent disappeared without trace",
-						fmt.Sprintf("Agent %q at %q no longer exists.", agent.ShortName, agent.Address))
-				}
+						agent.Up = false
 
-				continue
+						registry.Store(agent)
+
+						for _, addr := range config.AdminEmail {
+							mail.Send(addr, "[Cloud DB] Agent disappeared without trace",
+								fmt.Sprintf("Agent %q at %q no longer exists.", agent.ShortName, agent.Address))
+						}
+					}
+				}(agent)
 			}
 
 			if !agent.Up && inet.AddrExists(addr) {
+				logger.Debug("Agent %q back online", agent.ShortName)
+
 				agent.Up = true
 
 				registry.Store(agent)

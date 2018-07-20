@@ -11,7 +11,10 @@
     "url": "git+https://github.com/djavorszky/ddn.git"
   },
   "author": "djavorszky",
-  "contributors": "balcsida",
+  "contributors": [
+    "sorin-pop",
+    "balcsida"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/djavorszky/ddn/issues"

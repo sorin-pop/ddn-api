@@ -11,15 +11,18 @@
     "url": "git+https://github.com/djavorszky/ddn.git"
   },
   "author": "djavorszky",
-  "contributors": "balcsida",
+  "contributors": [
+    "sorin-pop",
+    "balcsida"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/djavorszky/ddn/issues"
   },
   "homepage": "https://github.com/djavorszky/ddn",
   "dependencies": {
-    "bootstrap": "^4.1.1",
-    "datatables.net-bs4": "^1.10.16",
+    "bootstrap": "^4.1.2",
+    "datatables.net-bs4": "^1.10.19",
     "font-awesome": "latest",
     "popper.js": "^1.14.3"
   }

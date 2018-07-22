@@ -10,7 +10,7 @@
                         <option selected disabled hidden style='display: none' value=''>Select one</option>
                         {{range .Agents}}
                             {{if .Up}}
-                                <option value="{{.ShortName}}">{{.ShortName}}</option>
+                                <option value="{{.ShortName}}" {{if eq $.SelectedAgent .ShortName}} selected {{end}}>{{.ShortName}}</option>
                             {{end}}
                         {{end}}
                     </select>

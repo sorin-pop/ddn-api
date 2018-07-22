@@ -43,6 +43,7 @@ type Page struct {
 	Commit                 string
 	GoogleAnalyticsEnabled bool
 	GoogleAnalyticsID      string
+	SelectedAgent          string
 }
 
 func loadPage(w http.ResponseWriter, r *http.Request, pages ...string) {
@@ -161,8 +162,35 @@ func loadPage(w http.ResponseWriter, r *http.Request, pages ...string) {
 
 	if pages[0] == "srvimport" {
 		dumploc := r.URL.Query().Get("dump")
+		agent := r.URL.Query().Get("agent")
 
 		page.DumpLoc = dumploc
+		page.SelectedAgent = agent
+	}
+
+	if pages[0] == "importdb" {
+		agent := r.URL.Query().Get("agent")
+		page.SelectedAgent = agent
+	}
+
+	if pages[0] == "fileimport" {
+		agent := r.URL.Query().Get("agent")
+		page.SelectedAgent = agent
+	}
+
+	if pages[0] == "importchooser" {
+		agent := r.URL.Query().Get("agent")
+		page.SelectedAgent = agent
+	}
+
+	if pages[0] == "browse" {
+		agent := r.URL.Query().Get("agent")
+		page.SelectedAgent = agent
+	}
+
+	if pages[0] == "createdb" {
+		agent := r.URL.Query().Get("agent")
+		page.SelectedAgent = agent
 	}
 
 	if pages[0] == "home" {

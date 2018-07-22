@@ -7,7 +7,11 @@
             <div class="card-body">
                 <h4 class="card-title">Browse the server</h4>
                 <p class="card-text">A folder has been mounted for your convenience - you can browse it to select the file you wish to import.</p>
-                <a href="browse" class="btn btn-primary">Browse server</a>
+                {{if .SelectedAgent}}
+                    <a href="browse?agent={{.SelectedAgent}}" class="btn btn-primary">Browse server</a>
+                {{else}}
+                    <a href="browse" class="btn btn-primary">Browse server</a>
+                {{end}}
             </div>
         </div>
     </div>
@@ -16,7 +20,11 @@
             <div class="card-body">
                 <h4 class="card-title">Upload a file</h4>
                 <p class="card-text">Upload the dump if you have it locally. This option should only be chosen for dumpfiles that are less than 1 Gb in size.</p>
-                <a href="/fileimport" class="btn btn-primary">Upload</a>
+                {{if .SelectedAgent}}
+                    <a href="/fileimport?agent={{.SelectedAgent}}" class="btn btn-primary">Upload</a>
+                {{else}}
+                    <a href="/fileimport" class="btn btn-primary">Upload</a>
+                {{end}}
             </div>
         </div>
     </div>

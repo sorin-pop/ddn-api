@@ -13,20 +13,34 @@
         </thead>
         <tbody>
         {{if not .FileList.OnRoot}}
-            <tr><td colspan=3><a href="/browse/{{.FileList.Parent}}"><i class="fa fa-level-up" aria-hidden="true"></i> Go up..</a></td></tr>
+            {{if $.SelectedAgent}}
+                <tr><td colspan=3><a href="/browse/{{.FileList.Parent}}?agent={{$.SelectedAgent}}"><i class="fa fa-level-up" aria-hidden="true"></i> Go up..</a></td></tr>
+            {{else}}
+                <tr><td colspan=3><a href="/browse/{{.FileList.Parent}}"><i class="fa fa-level-up" aria-hidden="true"></i> Go up..</a></td></tr>
+            {{end}}
         {{end}}
 
         {{range .FileList.Entries}}
         <tr>
             {{if .Folder}}
                 <td>
-                    <a href="/browse/{{.Path}}"><i class="fa fa-folder" aria-hidden="true"></i> {{.Name}} </a>
+                    {{if $.SelectedAgent}}
+                        <a href="/browse/{{.Path}}?agent={{$.SelectedAgent}}"><i class="fa fa-folder" aria-hidden="true"></i> {{.Name}} </a>
+                    {{else}}
+                        <a href="/browse/{{.Path}}"><i class="fa fa-folder" aria-hidden="true"></i> {{.Name}} </a>
+                    {{end}}
                 </td>
                 <td>n/a</td>
                 <td data-order="{{.ModTime.Unix}}">{{ .ModTime.Format "January 02, 2006 15:04:05"}}</td>
             {{else}}
                 <td><i class="fa fa-file" aria-hidden="true"></i> {{.Name}}
-                {{if .Importable}} - <a href="/srvimport?dump={{.Path}}">IMPORT</a> {{end}}
+                {{if .Importable}} 
+                    {{if $.SelectedAgent}}
+                        - <a href="/srvimport?dump={{.Path}}&agent={{$.SelectedAgent}}">IMPORT</a> 
+                    {{else}}
+                        - <a href="/srvimport?dump={{.Path}}">IMPORT</a> 
+                    {{end}}
+                {{end}}
                 <td>{{.FriendlySize}}</td>
                 <td data-order="{{.ModTime.Unix}}">{{ .ModTime.Format "January 02, 2006 15:04:05"}}</td>
             {{end}}
